@@ -9,8 +9,8 @@ public class UserJdbcCreateTable {
 		// Connection to MySql
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/project157a?serverTimezone=UTC", "root", "Bella@1225");
 		
-		// Create table
-		String createSql = "CREATE TABLE user (sjsu_id INT NOT NULL, " 
+		// Create register table
+		String createSql = "CREATE TABLE user (sjsu_id VARCHAR(20) NOT NULL, " 
 				+ "first_name VARCHAR(45) NOT NULL,"
 				+ "last_name VARCHAR(45) NOT NULL,"
 				+ "Phone VARCHAR(20) NULL,"
