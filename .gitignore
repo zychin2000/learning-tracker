@@ -93,3 +93,6 @@ local.properties
 .buildpath
 
 # Testing envi
+
+#config file
+CS157AProject/src/config.properties
