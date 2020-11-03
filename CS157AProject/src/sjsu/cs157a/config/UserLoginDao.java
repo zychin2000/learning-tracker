@@ -1,24 +1,17 @@
-package sjsu.cs157a;
+package sjsu.cs157a.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * This class for insert values to database
- * 
- * @author bellawei
- *
- */
-public class UserJdbc {
+import sjsu.cs157a.model.UserLogin;
 
-	public int registerUser(User user) throws ClassNotFoundException {
+public class UserLoginDao {
 
-		String INSERT_USERS_SQL = "INSERT INTO user"
-				+ "  (sjsu_id, first_name, last_name, Phone,email,password) VALUES " + " ( ?, ?, ?, ?,?, ?);";
-
-		int result = 0;
+	public boolean validate(UserLogin loginBean) throws ClassNotFoundException {
+		boolean status = false;
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -26,23 +19,20 @@ public class UserJdbc {
 				.getConnection("jdbc:mysql://localhost:3306/project157a?serverTimezone=UTC", "root", "Bella@1225");
 
 				// Step 2:Create a statement using connection object
-				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
-			preparedStatement.setString(1, user.getStudentID());
-			preparedStatement.setString(2, user.getFirstName());
-			preparedStatement.setString(3, user.getLastName());
-			preparedStatement.setString(4, user.getPhoneNo());
-			preparedStatement.setString(5, user.getEmail());
-			preparedStatement.setString(6, user.getPassword());
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("select * from user where sjsu_id = ? and password = ? ")) {
+			preparedStatement.setString(1, loginBean.getStudentID());
+			preparedStatement.setString(2, loginBean.getPassword());
 
 			System.out.println(preparedStatement);
-			// Step 3: Execute the query or update query
-			result = preparedStatement.executeUpdate();
+			ResultSet rs = preparedStatement.executeQuery();
+			status = rs.next();
 
 		} catch (SQLException e) {
 			// process sql exception
 			printSQLException(e);
 		}
-		return result;
+		return status;
 	}
 
 	private void printSQLException(SQLException ex) {
@@ -60,5 +50,4 @@ public class UserJdbc {
 			}
 		}
 	}
-
 }

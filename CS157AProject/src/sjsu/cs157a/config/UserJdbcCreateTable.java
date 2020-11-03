@@ -1,4 +1,4 @@
-package sjsu.cs157a;
+package sjsu.cs157a.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

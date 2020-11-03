@@ -1,4 +1,4 @@
-package sjsu.cs157a;
+package sjsu.cs157a.model;
 
 import java.io.Serializable;
 

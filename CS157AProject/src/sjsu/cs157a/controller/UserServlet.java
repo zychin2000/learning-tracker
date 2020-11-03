@@ -1,4 +1,4 @@
-package sjsu.cs157a;
+package sjsu.cs157a.controller;
 
 import java.io.IOException;
 
@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import sjsu.cs157a.config.UserJdbc;
+import sjsu.cs157a.model.User;
 
 @WebServlet("/register")
 public class UserServlet extends HttpServlet {

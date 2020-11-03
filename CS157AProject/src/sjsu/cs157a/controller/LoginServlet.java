@@ -1,4 +1,4 @@
-package sjsu.cs157a;
+package sjsu.cs157a.controller;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import sjsu.cs157a.UserLogin;
-import sjsu.cs157a.UserLoginDao;
+import sjsu.cs157a.config.UserLoginDao;
+import sjsu.cs157a.model.UserLogin;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet{
