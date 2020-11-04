@@ -29,13 +29,9 @@ public class UserDAO implements DAOInterface<User> {
     @Override
     public User getById(String id) throws SQLException, ClassNotFoundException {
         String sql =  "SELECT * FROM user_register WHERE user_id = ?";
-        Map<String, String> data = databaseConnection.executePreparedStatement(sql, id).get(0);
+        List<Map<String, String>> result = databaseConnection.executePreparedStatement(sql, id);
 
-        if(data != null){
-            return new User(data.get("user_id"),data.get("first_name"),data.get("last_name"),data.get("phone"),data.get("email"),data.get("password"));
-        }
-
-        return null;
+        return getUser(result);
 
     }
 
@@ -51,15 +47,28 @@ public class UserDAO implements DAOInterface<User> {
         return false;
     }
 
+    public User getUserByCredentials(String email, String password) throws SQLException, ClassNotFoundException {
+        //todo password hashing
+        String sql = "SELECT * FROM user_register WHERE email = ? AND password = ?";
+        List<Map<String,String>> result = databaseConnection.executePreparedStatement(sql, email, password);
+        return getUser(result);
+    }
+
+    private User getUser(List<Map<String, String>> result) {
+        if(!result.isEmpty()){
+            Map<String, String> data = result.get(0);
+            return new User(data.get("user_id"),data.get("first_name"),data.get("last_name"),data.get("phone"),data.get("email"),data.get("password"));
+        }
+
+        return null;
+    }
+
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO(new DatabaseConnection());
 
         try {
-            User user = userDAO.getById("13883700");
+            User user = userDAO.getById("138830");
 
-            user.setFirstName("newname");
-
-            user.setUserID("459");
 
             boolean res = userDAO.update(user);
 
