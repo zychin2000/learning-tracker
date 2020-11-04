@@ -1,5 +1,7 @@
 package sjsu.cs157a;
 
+import sjsu.cs157a.models.User;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -34,31 +36,31 @@ public class UserServlet extends HttpServlet {
 
 		String password = request.getParameter("password");
 
-		User user = new User();
+//		User user = new User();
+//
+//		user.setUserID(studentID);
+//
+//		user.setFirstName(firstName);
+//
+//		user.setLastName(lastName);
+//
+//		user.setPhoneNo(phone);
+//
+//		user.setEmail(email);
+//
+//		user.setPassword(password);
 
-		user.setStudentID(studentID);
-
-		user.setFirstName(firstName);
-
-		user.setLastName(lastName);
-
-		user.setPhoneNo(phone);
-
-		user.setEmail(email);
-
-		user.setPassword(password);
-
-		try {
-
-			UserDao.registerUser(user);
-
-		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
-			e.printStackTrace();
-
-		}
+//		try {
+//
+//			UserDao.registerUser(user);
+//
+//		} catch (Exception e) {
+//
+//			// TODO Auto-generated catch block
+//
+//			e.printStackTrace();
+//
+//		}
 
 		response.sendRedirect("details.jsp");
 
