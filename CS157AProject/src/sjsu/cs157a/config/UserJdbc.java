@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import sjsu.cs157a.model.User;
+
 
 /**
  * This class for insert values to database

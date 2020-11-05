@@ -3,6 +3,7 @@ package sjsu.cs157a.controller;
 import sjsu.cs157a.models.User;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sjsu.cs157a.config.UserJdbc;
-import sjsu.cs157a.model.User;
 
 @WebServlet("/register")
+//this servelet should be the profile page
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +23,14 @@ public class UserServlet extends HttpServlet {
 	public void init() {
 
 		UserDao = new UserJdbc();
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.append(request.getSession().getAttribute("userId").toString());
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -34,8 +34,8 @@ public class LoginServlet extends HttpServlet{
 					User user = userDao.getUserByCredentials(email,password);
 		            if (user != null) {
 		                HttpSession session = request.getSession();
-		                session.setAttribute("userId",user.getUserID());
-		                response.sendRedirect("dashboard.html");
+		                session.setAttribute("user",user);
+		                response.sendRedirect("dashboard/");
 		            } else {
 		                request.setAttribute("error", "Incorrect login, please try again");
 		                request.getRequestDispatcher("/login.html").forward(request,response);
