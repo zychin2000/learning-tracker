@@ -18,7 +18,7 @@ public class UserFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
-        String loginURI = request.getContextPath() + "/login.html";
+        String loginURI = request.getContextPath() + "/login.jsp";
 
         boolean loggedIn = session != null && session.getAttribute("user") != null;
 

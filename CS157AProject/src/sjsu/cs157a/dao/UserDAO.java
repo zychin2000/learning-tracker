@@ -47,10 +47,10 @@ public class UserDAO implements DAOInterface<User> {
         return false;
     }
 
-    public User getUserByCredentials(String email, String password) throws SQLException, ClassNotFoundException {
+    public User getUserByCredentials(String email) throws SQLException, ClassNotFoundException {
         //todo password hashing
-        String sql = "SELECT * FROM user_register WHERE email = ? AND password = ?";
-        List<Map<String,String>> result = databaseConnection.executePreparedStatement(sql, email, password);
+        String sql = "SELECT * FROM user_register WHERE email = ?";
+        List<Map<String,String>> result = databaseConnection.executePreparedStatement(sql, email);
         return getUser(result);
     }
 
