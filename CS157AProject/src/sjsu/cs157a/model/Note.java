@@ -26,6 +26,12 @@ public class Note {
 		this.title = title;
 		this.content = content;
 	}
+	
+	public Note(String title, String content) {
+		super();
+		this.title = title;
+		this.content = content;
+	}
 
 	public String getText_font() {
 		return text_font;

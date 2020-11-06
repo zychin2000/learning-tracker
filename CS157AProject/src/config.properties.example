@@ -3,3 +3,9 @@ dbName = sakila
 dbUsername = root
 dbPassword = admin1
 miscSetting = ?serverTimezone=Asia/Kuala_Lumpur
+
+jdbcURL = jdbc:mysql://localhost:3306/
+jdbcName = project157a
+jdbcUsername = root
+jdbcPassword = Bella@1225
+jdbcmiscSetting = ?serverTimezone=UTC

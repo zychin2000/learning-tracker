@@ -21,7 +21,7 @@
 
 			<ul class="navbar-nav">
 				<li><a href="<%=request.getContextPath()%>/list"
-					class="nav-link">Users</a></li>
+					class="nav-link">Notes</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -46,6 +46,7 @@
 						<th>NoteID</th>
 						<th>Title</th>
 						<th>Content</th>
+						<th>Actions</th>
 			
 					</tr>
 				</thead>
