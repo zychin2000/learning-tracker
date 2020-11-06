@@ -1,11 +1,13 @@
 package sjsu.cs157a.config;
 
+import sjsu.cs157a.models.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import sjsu.cs157a.model.User;
+
 
 /**
  * This class for insert values to database
@@ -29,7 +31,7 @@ public class UserJdbc {
 
 				// Step 2:Create a statement using connection object
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
-			preparedStatement.setString(1, user.getStudentID());
+			preparedStatement.setString(1, user.getUserID());
 			preparedStatement.setString(2, user.getFirstName());
 			preparedStatement.setString(3, user.getLastName());
 			preparedStatement.setString(4, user.getPhoneNo());
