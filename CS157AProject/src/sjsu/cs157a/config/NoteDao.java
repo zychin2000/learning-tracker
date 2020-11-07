@@ -170,32 +170,32 @@ public class NoteDao {
 	
 	
 	//-----------this class for testing---------------
-//	public static void main(String[] args) {
-//		List<Note> nodeList = new ArrayList<>();
-//		
-//		   // Step1: Establishing a connection 
-//		try (Connection connection = getConnection();
-//
-//			// Step 2:Create a statement using connection object
-//			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_NOTES);) {
-//			System.out.println(preparedStatement);
-//			// Step 3: Execute the query or update query
-//			ResultSet rs = preparedStatement.executeQuery();
-//
-//			// Step 4: Process the ResultSet object.
-//			while (rs.next()) {
-//				int priciple_id = rs.getInt("principle_id");
-//				int note_id = rs.getInt("note_id");
-//				String title = rs.getString("title");
-//				String content = rs.getNString("content");
-//				nodeList.add(new Note(priciple_id,note_id,title,content));
-//			}
-//		} catch (SQLException e) {
-//			System.out.println(e);;
-//		}
-//		
-//		System.out.println(nodeList);
-//	}
+	public static void main(String[] args) {
+		List<Note> nodeList = new ArrayList<>();
+		
+		   // Step1: Establishing a connection 
+		try (Connection connection = getConnection();
+
+			// Step 2:Create a statement using connection object
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_NOTES);) {
+			System.out.println(preparedStatement);
+			// Step 3: Execute the query or update query
+			ResultSet rs = preparedStatement.executeQuery();
+
+			// Step 4: Process the ResultSet object.
+			while (rs.next()) {
+				int priciple_id = rs.getInt("principle_id");
+				int note_id = rs.getInt("note_id");
+				String title = rs.getString("title");
+				String content = rs.getNString("content");
+				nodeList.add(new Note(priciple_id,note_id,title,content));
+			}
+		} catch (SQLException e) {
+			System.out.println(e);;
+		}
+		
+		System.out.println(nodeList);
+	}
 	
 	
 	
