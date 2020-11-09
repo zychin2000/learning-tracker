@@ -16,7 +16,7 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public boolean insert(User user) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO `user_register` (`first_name`, `last_name`, `email`, `phone`, `password`) VALUES ('?', '?', '?', '?', '?');";
+        String sql = "INSERT INTO `user_register` (`first_name`, `last_name`, `email`, `phone`, `password`) VALUES (?,?,?,?,?);";
         databaseConnection.executeUpdate(sql,user.getFirstName(),user.getLastName(),user.getEmail(),user.getPhoneNo(),user.getPassword());
         return true;
     }
