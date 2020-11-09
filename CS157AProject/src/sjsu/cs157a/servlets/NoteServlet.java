@@ -22,15 +22,16 @@ import sjsu.cs157a.model.Note;
  * @author bellawei
  *
  */
-@WebServlet("/")
+@WebServlet( "/notelist" )
 public class NoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static NoteDAO noteDao;
+	private static NoteDAO noteDao; 
 
 	public void init() {
 		noteDao = new NoteDAO(new DatabaseConnection());
 	}
 
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
@@ -42,7 +43,7 @@ public class NoteServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/new":
+			case "/notelist/new":
 				showNewForm(request, response);
 				break;
 			case "/insert":
@@ -79,6 +80,7 @@ public class NoteServlet extends HttpServlet {
 
 	}
 
+	// TODO: update a note
 	private void updateNote(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException {
 		int note_id = Integer.parseInt(request.getParameter("note_id"));
 		String title = request.getParameter("title");
@@ -86,28 +88,28 @@ public class NoteServlet extends HttpServlet {
 
 		Note note = new Note(note_id, title, content);
 		noteDao.updateNote(note);
-		response.sendRedirect("list");
+		response.sendRedirect("notelist");
 		
 	}
 
+	// TODO: detele a note 
 	private void deleteNote(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("note_id"));
 		noteDao.deleteNote(id);
-		response.sendRedirect("list");
+		response.sendRedirect("notelist");
 
 	}
 
-	// TODO: insert value-- > value become null  
+	// TODO: insert value-- > Now issue: insert values become null  
 	private void insertNote(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException {
-		String title = request.getParameter("title");
+		String title = request.getParameter("notetitle");
 		String content = request.getParameter("content");
 		Note note = new Note(title, content);
 		noteDao.insertNote(note);
 		
 		try {
-			response.sendRedirect("list");
+			response.sendRedirect("notelist");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
