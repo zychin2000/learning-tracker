@@ -12,3 +12,4 @@ A goal of this is to position students so that by the end of their course, they 
 * Lecture Note Uploading and Updating
 * Browser and sort through Topics and Classes
 * Choose and Practice one Learning Principles
+* Help Make Portfolio of Learning
