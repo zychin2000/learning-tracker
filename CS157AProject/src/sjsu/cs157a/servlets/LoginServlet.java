@@ -16,7 +16,7 @@ import sjsu.cs157a.dao.UserDAO;
 import sjsu.cs157a.models.User;
 import sjsu.cs157a.utils.PasswordUtils;
 
-@WebServlet("/login.jsp")
+@WebServlet(name = "LoginServlet", urlPatterns ="/login.jsp")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

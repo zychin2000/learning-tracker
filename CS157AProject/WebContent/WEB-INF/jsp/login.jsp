@@ -62,11 +62,13 @@
   							<input type="password" placeholder="Password" name="password">
   						</div>
   						<button class="button_1" type="submit">Sign In</button>
-              <div>
-                <label>Don't have an account?</label>
-                <button class="button_2" type="submit">Sign up?</button>
-              </div>
+
 					</form>
+            <div>
+              <label>Don't have an account?</label>
+
+              <form action="register.jsp"><button class="button_2" type="submit" >Sign up?</button></form>
+            </div>
           </div>
         </aside>
       </div>
