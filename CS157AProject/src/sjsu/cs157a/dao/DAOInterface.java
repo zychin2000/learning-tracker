@@ -14,7 +14,7 @@ import java.util.Map;
 public interface DAOInterface<T> {
     boolean insert(T t) throws SQLException, ClassNotFoundException;
     
-    List<T> listAll();
+    List<T> listAll() throws SQLException, ClassNotFoundException;
 
     T getById(String id) throws SQLException, ClassNotFoundException;
 
