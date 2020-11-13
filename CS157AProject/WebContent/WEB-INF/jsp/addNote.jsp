@@ -3,69 +3,60 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>User Management Application</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Learn To Seek Truth | Note</title>
+<link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
 </head>
 <body>
 
 	<header>
-		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: tomato">
-			<div>
-				<a href="https://www.javaguides.net" class="navbar-brand"> User Add Note Page </a>
+		<div class="container">
+			<div id="branding">
+				<h1>
+					<span class="highlight">Learn</span> ToSeekTruth
+				</h1>
 			</div>
-
-			<ul class="navbar-nav">
-				<li><a href="<%=request.getContextPath()%>/notelist"
-					class="nav-link">Notes</a></li>
-			</ul>
-		</nav>
+		</div>
 	</header>
+
 	<br>
 	<div class="container col-md-5">
 		<div class="card">
 			<div class="card-body">
-				<c:if test="${note != null}">
-					<form action="update" method="post">
-				</c:if>
-				<c:if test="${note == null}">
-					<form action="insert" method="post">
-				</c:if>
 
-				<caption>
-					<h2>
-						<c:if test="${note != null}">
+				<form action="<c:url value="/dashboard/insert"/>" method="post">
+
+					<caption>
+						<h2>
+							<c:if test="${note != null}">
             			Edit Note
             		</c:if>
-						<c:if test="${note == null}">
+							<c:if test="${note == null}">
             			Add New Note
             		</c:if>
-					</h2>
-				</caption>
+						</h2>
+					</caption>
 
-	 
-		<%-- 		<fieldset class="form-group">
-					<label>Note ID</label> <input type="text"
-						value="<c:out value='${note.note_id}' />" class="form-control"
-						name="note_id" required="required">
-				</fieldset>  --%>
 
-				<fieldset class="form-group">
-					<label>Note title</label> <input type="text"
-						value="<c:out value='${note.title}' />" class="form-control"
-						name="email">
-				</fieldset>
 
-				<fieldset class="form-group">
-					<label>Note Content</label> <input type="text"
-						value="<c:out value='${note.content}' />" class="form-control"
-						name="country">
-				</fieldset>
+					<fieldset class="form-group">
+						<label>Note title</label> <input type="text"
+							value="<c:out value='${note.title}' />" class="form-control"
+							name="title">
+					</fieldset>
 
-				<button type="submit" class="btn btn-success">Save</button>
+					<fieldset class="form-group">
+						<label>Note Content</label> <input type="text"
+							value="<c:out value='${note.content}' />" class="form-control"
+							name="content">
+					</fieldset>
+
+					<button type="submit" class="btn btn-success">Save</button>
 				</form>
 			</div>
 		</div>
