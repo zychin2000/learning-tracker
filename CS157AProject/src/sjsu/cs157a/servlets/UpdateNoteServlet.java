@@ -1,0 +1,45 @@
+package sjsu.cs157a.servlets;
+
+
+import javax.servlet.http.HttpServlet;
+import java.io.IOException;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import sjsu.cs157a.config.DatabaseConnection;
+import sjsu.cs157a.dao.NoteDAO;
+import sjsu.cs157a.model.Note;
+
+@WebServlet("/dashboard/update")
+public class UpdateNoteServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static NoteDAO noteDao;
+
+	public void init() {
+		noteDao = new NoteDAO(new DatabaseConnection());
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/jsp/addNote.jsp").forward(request, response);
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("noteId"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		
+		Note note = new Note(id, title, content);
+			try {
+				noteDao.update(note);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+	
+		response.sendRedirect("notelist");
+	}
+
+}
+
