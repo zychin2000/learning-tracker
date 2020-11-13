@@ -87,7 +87,7 @@ public class NoteDAO implements DAOInterface<Note> {
 
 	// Select notes
 	public Note selectNote(int id) throws ClassNotFoundException, SQLException {
-		String SELECT_NOTES_BY_ID = "select principle_id, note_id, title, content from users where note_id =?";
+		String SELECT_NOTES_BY_ID = "select note_id, title, content from users where note_id =?";
 		Note note = null;
 		// Step 1: Establishing a Connection
 		connection = getConnection();
@@ -114,13 +114,7 @@ public class NoteDAO implements DAOInterface<Note> {
 	}
 
 	@Override
-	public boolean update(Note t) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	// TODO: update
-	public boolean updateNote(Note note) throws SQLException, ClassNotFoundException {
+	public boolean update(Note note) throws SQLException, ClassNotFoundException {
 		String UPDATE_NOTES_SQL = "update note_meta set title =?, content =? where note_id = ?;";
 		boolean rowUpdated;
 		connection = getConnection();
@@ -134,11 +128,10 @@ public class NoteDAO implements DAOInterface<Note> {
 		return rowUpdated;
 	}
 
-	// detele
+	// Delete a note
 	public boolean deleteNote(int id) throws SQLException, ClassNotFoundException {
 		String DELETE_NOTES_SQL = "delete from note_meta where note_id = ?;";
 		boolean rowDeleted;
-
 		connection = getConnection();
 		try (PreparedStatement statement = connection.prepareStatement(DELETE_NOTES_SQL);) {
 			statement.setInt(1, id);
@@ -156,18 +149,15 @@ public class NoteDAO implements DAOInterface<Note> {
 	// --------------- This main class for testing ----------
 	public static void main(String args[]) throws ClassNotFoundException, SQLException {
 
-		// System.out.println("data"+ databaseConnection);
 		List<Note> nodeList = new ArrayList<>();
-
-		// System.out.println("debug " + connection);
 		connection = getConnection();
 		try (PreparedStatement preparedStatement = connection
 				.prepareStatement("SELECT * FROM project157a.note_meta");) {
 			System.out.println(preparedStatement);
-			// Step 3: Execute the query or update query
+	
 			ResultSet rs = preparedStatement.executeQuery();
 
-			// Step 4: Process the ResultSet object.
+	
 			while (rs.next()) {
 				String title = rs.getString("title");
 				String content = rs.getNString("content");
