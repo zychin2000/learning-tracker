@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.Note;
+/**
+ * This Servlet acts as a page controller for the application, it is for inserting a note 
+ * @author 
+ *
+ */
 
 @WebServlet("/dashboard/insert")
 public class InsertNoteServlet extends HttpServlet {

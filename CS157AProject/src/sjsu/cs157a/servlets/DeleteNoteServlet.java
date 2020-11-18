@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.dao.NoteDAO;
 
+/**
+ * This Servlet acts as a page controller for the application, it is for deletion 
+ * @author 
+ *
+ */
 @WebServlet("/dashboard/delete")
 public class DeleteNoteServlet extends HttpServlet {
 
@@ -24,6 +29,7 @@ public class DeleteNoteServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		int id = Integer.parseInt(request.getParameter("noteId"));
+
 		try {
 			noteDao.deleteNote(id);
 		} catch (ClassNotFoundException e) {
