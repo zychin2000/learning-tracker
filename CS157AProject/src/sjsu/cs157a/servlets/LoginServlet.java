@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            System.out.println("Debug in Login Servlet: " + user.getFirstName()+" " + user.getLastName());
             response.sendRedirect("dashboard/");
         } catch (AuthenticationException e) {
             request.setAttribute("error", "Incorrect login, please try again");

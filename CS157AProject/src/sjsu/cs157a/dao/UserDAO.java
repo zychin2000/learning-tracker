@@ -67,7 +67,7 @@ public class UserDAO implements DAOInterface<User> {
         UserDAO userDAO = new UserDAO(new DatabaseConnection());
 
         try {
-            User user = userDAO.getById("138830");
+            User user = userDAO.getById("013883753");
 
 
             boolean res = userDAO.update(user);
