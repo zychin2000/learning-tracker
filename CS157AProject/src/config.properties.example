@@ -1,5 +1,0 @@
-dbURL = jdbc:mysql://localhost:3306/
-dbName = sakila
-dbUsername = root
-dbPassword = admin1
-miscSetting = ?serverTimezone=Asia/Kuala_Lumpur

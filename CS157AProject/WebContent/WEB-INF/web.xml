@@ -17,8 +17,5 @@
   <filter-name>UserFilter</filter-name>
   <url-pattern>/dashboard/*</url-pattern>
 </filter-mapping>
-  <listener>
-    <listener-class>sjsu.cs157a.Application</listener-class>
-  </listener>
 
 </web-app>
