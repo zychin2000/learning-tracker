@@ -72,6 +72,8 @@ public class DatabaseConnection {
 				preparedStatement.setString(i, values[i - 1]);
 			}
 
+			System.out.println("Executing query: " + preparedStatement.toString());
+
 			ResultSet rs = preparedStatement.executeQuery();
 
 			// After getting the result set, transform the structure into List of Map
@@ -121,6 +123,8 @@ public class DatabaseConnection {
 			for (int i = 1; i <= values.length; i++) {
 				preparedStatement.setString(i, values[i - 1]);
 			}
+
+			System.out.println("Executing query: " + preparedStatement.toString());
 
 			return preparedStatement.executeUpdate();
 		} finally {
