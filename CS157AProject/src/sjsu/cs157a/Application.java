@@ -32,7 +32,8 @@ public class Application implements ServletContextListener {
                     .locations("sjsu/cs157a/migrations")
                     .baselineOnMigrate(true)
                     .load();
-
+            
+           
             MigrateResult migrateResult = flyway.migrate();
 //
             System.out.println("Migrations executed: " + migrateResult.migrationsExecuted);
@@ -57,5 +58,10 @@ public class Application implements ServletContextListener {
         dbProperties.load(inputStream);
 
         return dbProperties;
+    }
+    
+    // This main just for testing 
+    public static void main(String[] args) {
+       
     }
 }
