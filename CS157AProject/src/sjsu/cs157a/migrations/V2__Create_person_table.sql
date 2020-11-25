@@ -1,16 +1,15 @@
 # change the length of password to 100
 ALTER TABLE `project157a`.`user_register`
     CHANGE COLUMN `password` `password` VARCHAR(100) NULL DEFAULT NULL ;
-    
-# Drop Column principle_id from note_meta
---ALTER TABLE `project157a`.`note_meta` 
---DROP COLUMN `principle_id`;
+  
 
-# add username into user_meta
---ALTER TABLE `project157a`.`user_meta` 
---ADD COLUMN `username` VARCHAR(45) NULL DEFAULT NULL AFTER `major`;
+# changed note_id to AUTO_INCREMENT
+ALTER TABLE `project157a`.`note_meta` 
+CHANGE COLUMN `note_id` `note_id` INT NOT NULL AUTO_INCREMENT ;
 
-# changed order of each attributes to user_meta
-ALTER TABLE `project157a`.`user_meta` 
-CHANGE COLUMN `username` `username` VARCHAR(45) NULL DEFAULT NULL AFTER `user_id`,
-CHANGE COLUMN `major` `major` VARCHAR(45) NULL DEFAULT NULL AFTER `bio`;
+# changed data_type from  VARCHAR to INT
+ALTER TABLE `project157a`.`note_meta` 
+CHANGE COLUMN `class_id` `class_id` INT(45) NOT NULL ;
+
+ALTER TABLE `project157a`.`note_docu` 
+CHANGE COLUMN `note_id` `note_id` INT NOT NULL ;
