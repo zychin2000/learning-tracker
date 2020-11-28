@@ -1,5 +1,6 @@
 package sjsu.cs157a.dao;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.model.Note;
+import sjsu.cs157a.servlets.InsertPicNoteServlet;
 
 /**
  * 
@@ -86,6 +88,45 @@ public class NoteDAO implements DAOInterface<Note> {
 		}
 			
 		}
+	
+	public void InsertPicNote(Note note) throws SQLException, ClassNotFoundException{
+		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" ;
+		String INSERT_PIC_NOTE = "INSERT INTO note_picture"+ "(note_id, image_type, size, link) VALUES" + 
+				"(LAST_INSERT_ID(), ?, ?,?);";
+		
+		try(Connection connection = getConnection();) {
+			connection.setAutoCommit(false);
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES);
+			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_PIC_NOTE);
+         
+            
+			preparedStatement.setInt(1, note.getClass_id());
+			preparedStatement.setString(2, note.getTitle());
+			preparedStatement.setString(3, note.getContent());
+			preparedStatement.addBatch();
+			preparedStatement.execute();
+			
+			
+			
+			preparedStatement1.setString(1, note.getImage_type());
+			preparedStatement1.setString(2, note.getSize());
+			preparedStatement1.setBlob(3, note.getInputStream());		
+			System.out.println("Debug in NoteDao: " + note.getImage_type() +" " + note.getInputStream());
+			System.out.println("debug in noteDao    "    + preparedStatement1);
+			preparedStatement1.execute();
+			
+			connection.commit();	
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		
+	}
+	
+	
 	
 
 	@Override
