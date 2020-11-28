@@ -63,14 +63,14 @@
 						</fieldset>
 
 
-					<!-- 	<fieldset class="form-group">
+						<!-- 	<fieldset class="form-group">
 							<label>Note Photo</label> <input type="file"
 								 class="form-control" name="photo">
 						</fieldset> -->
 						<tr>
-                    <td>Note Photo: </td>
-                    <td><input type="file" name="photo" size="50"/></td>
-                </tr>
+							<td>Note Photo:</td>
+							<td><input type="file" name="photo" size="50" /></td>
+						</tr>
 
 
 						<button type="submit" class="btn btn-success">Save</button>
