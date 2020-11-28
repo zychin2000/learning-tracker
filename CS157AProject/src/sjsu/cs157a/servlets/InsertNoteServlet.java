@@ -12,8 +12,11 @@ import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.Note;
 
 /**
- * This Servlet acts as a page controller for the application, it is for inserting a note 
- * @author 
+ * This Servlet acts as a page controller for the application, it is for
+ * inserting a note which contains a drop down menu for choose either upload a
+ * doc or pic note
+ * 
+ * @author
  *
  */
 
@@ -28,22 +31,11 @@ public class InsertNoteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/jsp/addNote.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/insertNote.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		Note note = new Note(title, content);
-		try {
-			noteDao.insertNote(note);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 		response.sendRedirect("notelist");
 	}
 

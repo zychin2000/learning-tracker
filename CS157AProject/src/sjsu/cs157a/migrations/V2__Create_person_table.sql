@@ -13,3 +13,6 @@ CHANGE COLUMN `class_id` `class_id` INT(45) NOT NULL ;
 
 ALTER TABLE `project157a`.`note_docu` 
 CHANGE COLUMN `note_id` `note_id` INT NOT NULL ;
+
+ALTER TABLE `project157a`.`note_picture` 
+CHANGE COLUMN `link` `link` MEDIUMBLOB NULL DEFAULT NULL ;

@@ -14,12 +14,13 @@ import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.Note;
 
 /**
- * Servlet implementation class InsertDocNoteServlet
+ * This Servlet acts as a page controller for the application, it is for
+ * inserting a doc note
  */
 @WebServlet("/dashboard/insertdoc")
 public class InsertDocNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	private static NoteDAO noteDao;
 
 	public void init() {
@@ -33,16 +34,16 @@ public class InsertDocNoteServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		int class_id = Integer.parseInt(request.getParameter("class_id"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String text_font = request.getParameter("text_font");
 		String file_type = request.getParameter("file_type");
 		String docContent = request.getParameter("docContent");
-		
-		Note note = new Note(class_id,title,content,text_font,file_type,docContent);
-		
+
+		Note note = new Note(class_id, title, content, text_font, file_type, docContent);
+
 		try {
 			noteDao.insertDocNote(note);
 		} catch (ClassNotFoundException e) {
