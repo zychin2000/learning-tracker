@@ -33,170 +33,204 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
+    <%----%>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        /*Settings for editor.js*/
+        .ce-block__content,
+        .ce-toolbar__content {
+            max-width: 1200px;
+        }
+
+        .shadowContainer {
+            box-shadow: 10px 14px 5px 0px rgba(0, 0, 0, 0.24);
+            -webkit-box-shadow: 10px 14px 5px 0px rgba(0, 0, 0, 0.24);
+            -moz-box-shadow: 10px 14px 5px 0px rgba(0, 0, 0, 0.24);
+        }
+
+    </style>
 </head>
 
 <body>
 <jsp:include page="components/dashboardHeader.jsp"/>
 
-    <div class="row" >
-        <jsp:include page="components/dashboardSidebar.jsp"/>
-        <div class="col-md-6">
-        <div id="editorjs"></div>
-        </div>
-        <div class=col-md-4">
-        <button class="btn btn-secondary btn-lg" type="button" id="saveDocument" style="margin: 1em">Save</button>
-            <div class =container>
-<%--                <h1>Learning Principle</h1>--%>
-            </div>
-        </div>
-        <script>
-            /**
-             * To initialize the Editor, create a new instance with configuration object
-             * @see docs/installation.md for mode details
-             */
-            var editor = new EditorJS({
-                /**
-                 * Enable/Disable the read only mode
-                 */
-                readOnly: false,
+<div class="row">
+    <jsp:include page="components/dashboardSidebar.jsp"/>
+    <div class="col-md-6">
 
-                /**
-                 * Wrapper of Editor
-                 */
-                holder: 'editorjs',
-
-                /**
-                 * Common Inline Toolbar settings
-                 * - if true (or not specified), the order from 'tool' property will be used
-                 * - if an array of tool names, this order will be used
-                 */
-                // inlineToolbar: ['link', 'marker', 'bold', 'italic'],
-                // inlineToolbar: true,
-
-                /**
-                 * Tools list
-                 */
-                tools: {
-                    /**
-                     * Each Tool is a Plugin. Pass them via 'class' option with necessary settings {@link docs/tools.md}
-                     */
-                    header: {
-                        class: Header,
-                        inlineToolbar: ['marker', 'link'],
-                        config: {
-                            placeholder: 'Header'
-                        },
-                        shortcut: 'CMD+SHIFT+H'
-                    },
-
-                    /**
-                     * Or pass class directly without any configuration
-                     */
-                    image: SimpleImage,
-
-                    list: {
-                        class: List,
-                        inlineToolbar: true,
-                        shortcut: 'CMD+SHIFT+L'
-                    },
-
-                    checklist: {
-                        class: Checklist,
-                        inlineToolbar: true,
-                    },
-
-                    quote: {
-                        class: Quote,
-                        inlineToolbar: true,
-                        config: {
-                            quotePlaceholder: 'Enter a quote',
-                            captionPlaceholder: 'Quote\'s author',
-                        },
-                        shortcut: 'CMD+SHIFT+O'
-                    },
-
-                    warning: Warning,
-
-                    marker: {
-                        class: Marker,
-                        shortcut: 'CMD+SHIFT+M'
-                    },
-
-                    code: {
-                        class: CodeTool,
-                        shortcut: 'CMD+SHIFT+C'
-                    },
-
-                    delimiter: Delimiter,
-
-                    inlineCode: {
-                        class: InlineCode,
-                        shortcut: 'CMD+SHIFT+C'
-                    },
-
-                    linkTool: LinkTool,
-
-                    embed: Embed,
-
-                    table: {
-                        class: Table,
-                        inlineToolbar: true,
-                        shortcut: 'CMD+ALT+T'
-                    },
-
-                },
-
-                /**
-                 * This Tool will be used as default
-                 */
-                // defaultBlock: 'paragraph',
-
-                /**
-                 * Initial Editor data
-                 */
-                data: ${note.getDocumentContent().toString()},
-                onReady: function () {
-                    saveButton.click();
-                },
-                onChange: function () {
-                    console.log('something changed');
-                }
-            });
-
-            /**
-             * Saving button
-             */
-            const saveButton = document.getElementById('saveButton');
-
-            /**
-             * Toggle read-only button
-             */
-            const toggleReadOnlyButton = document.getElementById('toggleReadOnlyButton');
-            const readOnlyIndicator = document.getElementById('readonly-state');
-
-            /**
-             * Saving example
-             */
-            saveButton.addEventListener('click', function () {
-                editor.save()
-                    .then((savedData) => {
-                        cPreview.show(savedData, document.getElementById("output"));
-                    })
-                    .catch((error) => {
-                        console.error('Saving error', error);
-                    });
-            });
-
-            /**
-             * Toggle read-only example
-             */
-            toggleReadOnlyButton.addEventListener('click', async () => {
-                const readOnlyState = await editor.readOnly.toggle();
-
-                readOnlyIndicator.textContent = readOnlyState ? 'On' : 'Off';
-            });
-        </script>
+        <h1 style="align-self: center">${note.getTitle()}</h1>
+        <div id="editorjs" class="shadowContainer" style="border-style: solid;border-width: 0.5px; padding: 1em "></div>
     </div>
+    <div class=col-md-4">
+        <button class="btn btn-secondary btn-lg" type="button" id="saveButton" style="margin: 1em">Save</button>
+        <div class=container>
+            <%--                <h1>Learning Principle</h1>--%>
+        </div>
+    </div>
+    <script>
+
+        /**
+         * To initialize the Editor, create a new instance with configuration object
+         * @see docs/installation.md for mode details
+         */
+        var editor = new EditorJS({
+            /**
+             * Enable/Disable the read only mode
+             */
+            readOnly: false,
+
+            placeholder: 'Let`s write an awesome story!',
+
+
+            /**
+             * Wrapper of Editor
+             */
+            holder: 'editorjs',
+
+            /**
+             * Common Inline Toolbar settings
+             * - if true (or not specified), the order from 'tool' property will be used
+             * - if an array of tool names, this order will be used
+             */
+            // inlineToolbar: ['link', 'marker', 'bold', 'italic'],
+            // inlineToolbar: true,
+
+            /**
+             * Tools list
+             */
+            tools: {
+                /**
+                 * Each Tool is a Plugin. Pass them via 'class' option with necessary settings {@link docs/tools.md}
+                 */
+                header: {
+                    class: Header,
+                    inlineToolbar: ['marker', 'link'],
+                    config: {
+                        placeholder: 'Header'
+                    },
+                    shortcut: 'CMD+SHIFT+H'
+                },
+
+                /**
+                 * Or pass class directly without any configuration
+                 */
+                image: SimpleImage,
+
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                    shortcut: 'CMD+SHIFT+L'
+                },
+
+                checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                },
+
+                quote: {
+                    class: Quote,
+                    inlineToolbar: true,
+                    config: {
+                        quotePlaceholder: 'Enter a quote',
+                        captionPlaceholder: 'Quote\'s author',
+                    },
+                    shortcut: 'CMD+SHIFT+O'
+                },
+
+                warning: Warning,
+
+                marker: {
+                    class: Marker,
+                    shortcut: 'CMD+SHIFT+M'
+                },
+
+                code: {
+                    class: CodeTool,
+                    shortcut: 'CMD+SHIFT+C'
+                },
+
+                delimiter: Delimiter,
+
+                inlineCode: {
+                    class: InlineCode,
+                    shortcut: 'CMD+SHIFT+C'
+                },
+
+                linkTool: LinkTool,
+
+                embed: Embed,
+
+                table: {
+                    class: Table,
+                    inlineToolbar: true,
+                    shortcut: 'CMD+ALT+T'
+                },
+
+            },
+
+            /**
+             * This Tool will be used as default
+             */
+            // defaultBlock: 'paragraph',
+
+            /**
+             * Initial Editor data
+             */
+            data: ${note.getDocumentContent() == null? "[]" : note.getDocumentContent().toString()},
+            onReady: function () {
+                saveButton.click();
+            },
+            onChange: function () {
+                console.log('something changed');
+            }
+        });
+
+        /**
+         * Saving button
+         */
+        const saveButton = document.getElementById('saveButton');
+
+        /**
+         * Toggle read-only button
+         */
+        const toggleReadOnlyButton = document.getElementById('toggleReadOnlyButton');
+        const readOnlyIndicator = document.getElementById('readonly-state');
+
+        /**
+         * Saving example
+         */
+        saveButton.addEventListener('click', function () {
+            editor.save()
+                .then((savedData) => {
+                    console.log(savedData)
+                    const urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append('note_id', ${note.getNote_id()})
+                    urlSearchParams.append('content', JSON.stringify(savedData))
+                    <%--axios.post('${pageContext.request.contextPath}/dashboard/note',formData, {headers: {--%>
+                    <%--        'Content-Type': 'application/x-www-form-urlencoded'--%>
+                    <%--    }}).then((res) => console.log("Asdsad    "))--%>
+                    fetch('${pageContext.request.contextPath}/dashboard/note', {
+                        method: 'post',
+                        body: urlSearchParams,
+                    })
+
+                    //cPreview.show(savedData, document.getElementById("output"));
+                })
+                .catch((error) => {
+                    console.error('Saving error', error);
+                });
+        });
+
+        /**
+         * Toggle read-only example
+         */
+        toggleReadOnlyButton.addEventListener('click', async () => {
+            const readOnlyState = await editor.readOnly.toggle();
+
+            readOnlyIndicator.textContent = readOnlyState ? 'On' : 'Off';
+        });
+    </script>
+</div>
 
 </body>
 </html>

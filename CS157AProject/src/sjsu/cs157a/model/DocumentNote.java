@@ -3,8 +3,7 @@ package sjsu.cs157a.model;
 import org.json.*;
 
 
-
-public class DocumentNote extends Note{
+public class DocumentNote extends Note {
 
     JSONObject documentContent;
 
@@ -14,7 +13,10 @@ public class DocumentNote extends Note{
 
     public DocumentNote(int note_id, String title, String content, String documentContent) throws JSONException {
         super(note_id, title, content);
-        this.documentContent = new JSONObject(documentContent);
+
+
+        if (documentContent != null)
+            this.documentContent = new JSONObject(documentContent);
     }
 
 

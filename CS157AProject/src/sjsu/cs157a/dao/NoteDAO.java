@@ -231,16 +231,16 @@ public class NoteDAO implements DAOInterface<Note> {
 		connection = getConnection();
 
 		try (PreparedStatement statement = connection.prepareStatement(UPDATE_NOTES_SQL);) {
-			statement.setInt(1, note.getNote_id());
-			statement.setString(2, note.getTitle());
-			statement.setString(3, note.getContent());
+			statement.setInt(3, note.getNote_id());
+			statement.setString(1, note.getTitle());
+			statement.setString(2, note.getContent());
 			rowUpdated = statement.executeUpdate() > 0;
 		}
 
 		if(note instanceof DocumentNote){
 			DocumentNote documentNote = (DocumentNote) note;
 			String UPDATE_DOC_NOTE_SQL = "update note_docu set content = ? where note_id = ?;";
-			databaseConnection.executeUpdate(UPDATE_DOC_NOTE_SQL, documentNote.getContent().toString(), Integer.toString(note.getNote_id()));
+			databaseConnection.executeUpdate(UPDATE_DOC_NOTE_SQL, documentNote.getDocumentContent().toString(), Integer.toString(note.getNote_id()));
 		}
 
 
