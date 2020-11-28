@@ -1,13 +1,16 @@
 package sjsu.cs157a.dao;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.model.Note;
+import sjsu.cs157a.servlets.InsertPicNoteServlet;
 
 /**
  * 
@@ -29,28 +32,102 @@ public class NoteDAO implements DAOInterface<Note> {
 
 	}
 
+	/**
+	 * Insert a note into note_docu table 
+	 */
 	@Override
 	public boolean insert(Note t) throws SQLException, ClassNotFoundException {
-//		String INSERT_NOTES_SQL = "INSERT INTO note_meta" + " (note_id, title, content) VALUES " + " (?, ?,?);";
-//		System.out.println("Debug in NoteDao INSERT_NOTES_SQL: " + INSERT_NOTES_SQL);
-//		databaseConnection.executeUpdate(INSERT_NOTES_SQL, t.getTitle(), t.getContent());
-		return false;
+//		String INSERT_NOTES_SQL = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" + 
+//				"INSERT INTO note_docu"+ "(note_id, text_font, file_type) VALUES" + 
+//				"(LAST_INSERT_ID(), '?', '?');";
+		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" ;
+		String INSERT_NOTES_SQL = "INSERT INTO note_docu"+ "(note_id, text_font, file_type) VALUES" + 
+				"(LAST_INSERT_ID(), ?, ?);";
+		
+		System.out.println("Debug in NoteDao INSERT_NOTES_SQL: " + INSERT_NOTES_SQL);
+		databaseConnection.executeUpdate(INSERT_NOTES, Integer.toString(t.getClass_id()), t.getTitle(), t.getContent());
+		databaseConnection.executeUpdate(INSERT_NOTES_SQL, Integer.toString(t.getNote_id()), t.getText_font(),t.getFile_type());
+		return true;
 	}
+	
 
-	// Insert a note
-	public void insertNote(Note note) throws SQLException, ClassNotFoundException {
-		String INSERT_NOTES_SQL = "INSERT INTO note_meta" + " (title, content) VALUES " + " (?,?);";
-		System.out.println(INSERT_NOTES_SQL);
-		connection = getConnection();
-		try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES_SQL)) {
-			preparedStatement.setString(1, note.getTitle());
-			preparedStatement.setString(2, note.getContent());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(e);
+	// Insert a doc Note to note_docu table 
+	public void insertDocNote(Note note) throws SQLException, ClassNotFoundException {
+		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" ;
+		String INSERT_NOTES_SQL = "INSERT INTO note_docu"+ "(note_id, text_font, file_type,content) VALUES" + 
+				"(LAST_INSERT_ID(), ?, ?,?);";
+		
+		try(Connection connection = getConnection();) {	
+			// commit all or roll back all, if any errors
+            connection.setAutoCommit(false);
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES);
+			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_NOTES_SQL);
+         
+            
+			preparedStatement.setInt(1, note.getClass_id());
+			preparedStatement.setString(2, note.getTitle());
+			preparedStatement.setString(3, note.getContent());
+			preparedStatement.addBatch();
+			preparedStatement.execute();
+	
+			
+			preparedStatement1.setString(1, note.getText_font());
+			System.out.println("debug " + note.getText_font());
+			preparedStatement1.setString(2, note.getFile_type());
+			preparedStatement1.setString(3, note.getDocContent());
+				
+			System.out.println("debug in noteDao    "    + preparedStatement1);
+			//preparedStatement1.executeUpdate();
+			
+			preparedStatement1.execute();
+			connection.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+			
+		}
+	
+	public void InsertPicNote(Note note) throws SQLException, ClassNotFoundException{
+		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" ;
+		String INSERT_PIC_NOTE = "INSERT INTO note_picture"+ "(note_id, image_type, size, link) VALUES" + 
+				"(LAST_INSERT_ID(), ?, ?,?);";
+		
+		try(Connection connection = getConnection();) {
+			connection.setAutoCommit(false);
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES);
+			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_PIC_NOTE);
+         
+            
+			preparedStatement.setInt(1, note.getClass_id());
+			preparedStatement.setString(2, note.getTitle());
+			preparedStatement.setString(3, note.getContent());
+			preparedStatement.addBatch();
+			preparedStatement.execute();
+			
+			
+			
+			preparedStatement1.setString(1, note.getImage_type());
+			preparedStatement1.setString(2, note.getSize());
+			preparedStatement1.setBlob(3, note.getInputStream());		
+			System.out.println("Debug in NoteDao: " + note.getImage_type() +" " + note.getInputStream());
+			System.out.println("debug in noteDao    "    + preparedStatement1);
+			preparedStatement1.execute();
+			
+			connection.commit();	
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		
 	}
+	
+	
+	
 
 	@Override
 	public List<Note> listAll() throws SQLException, ClassNotFoundException {
@@ -61,6 +138,7 @@ public class NoteDAO implements DAOInterface<Note> {
 		connection = getConnection();
 		try (PreparedStatement preparedStatement = connection
 				.prepareStatement("SELECT * FROM project157a.note_meta");) {
+			
 			System.out.println(preparedStatement);
 			// Step 3: Execute the query or update query
 			ResultSet rs = preparedStatement.executeQuery();
@@ -87,7 +165,7 @@ public class NoteDAO implements DAOInterface<Note> {
 
 	// Select notes
 	public Note selectNote(int id) throws ClassNotFoundException, SQLException {
-		String SELECT_NOTES_BY_ID = "select principle_id, note_id, title, content from users where note_id =?";
+		String SELECT_NOTES_BY_ID = "select note_id, title, content from users where note_id =?";
 		Note note = null;
 		// Step 1: Establishing a Connection
 		connection = getConnection();
@@ -114,13 +192,7 @@ public class NoteDAO implements DAOInterface<Note> {
 	}
 
 	@Override
-	public boolean update(Note t) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	// TODO: update
-	public boolean updateNote(Note note) throws SQLException, ClassNotFoundException {
+	public boolean update(Note note) throws SQLException, ClassNotFoundException {
 		String UPDATE_NOTES_SQL = "update note_meta set title =?, content =? where note_id = ?;";
 		boolean rowUpdated;
 		connection = getConnection();
@@ -134,11 +206,10 @@ public class NoteDAO implements DAOInterface<Note> {
 		return rowUpdated;
 	}
 
-	// detele
+	// Delete a note
 	public boolean deleteNote(int id) throws SQLException, ClassNotFoundException {
 		String DELETE_NOTES_SQL = "delete from note_meta where note_id = ?;";
 		boolean rowDeleted;
-
 		connection = getConnection();
 		try (PreparedStatement statement = connection.prepareStatement(DELETE_NOTES_SQL);) {
 			statement.setInt(1, id);
@@ -156,18 +227,15 @@ public class NoteDAO implements DAOInterface<Note> {
 	// --------------- This main class for testing ----------
 	public static void main(String args[]) throws ClassNotFoundException, SQLException {
 
-		// System.out.println("data"+ databaseConnection);
 		List<Note> nodeList = new ArrayList<>();
-
-		// System.out.println("debug " + connection);
 		connection = getConnection();
 		try (PreparedStatement preparedStatement = connection
 				.prepareStatement("SELECT * FROM project157a.note_meta");) {
 			System.out.println(preparedStatement);
-			// Step 3: Execute the query or update query
+	
 			ResultSet rs = preparedStatement.executeQuery();
 
-			// Step 4: Process the ResultSet object.
+	
 			while (rs.next()) {
 				String title = rs.getString("title");
 				String content = rs.getNString("content");

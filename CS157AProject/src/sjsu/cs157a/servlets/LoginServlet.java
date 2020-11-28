@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.dao.UserDAO;
 import sjsu.cs157a.models.User;
@@ -51,6 +50,9 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            session.setAttribute("userID", user.getUserID());
+            
+          //  System.out.println("Debug in Login Servlet: " +user.getUserID()+ user.getFirstName()+" " + user.getLastName());
             response.sendRedirect("dashboard/");
         } catch (AuthenticationException e) {
             request.setAttribute("error", "Incorrect login, please try again");

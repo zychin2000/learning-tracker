@@ -1,5 +1,6 @@
 package sjsu.cs157a.model;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,7 @@ public class Note implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int note_id;    // auto-increment in database 
+	private int class_id;   
 	private String title;
 	private String content;
 	private String text_font;
@@ -19,10 +21,24 @@ public class Note implements Serializable {
 	private String image_type;
 	private String size;
 	private String link;
+	private String docContent;  // content in note_doc table 
+	private InputStream inputStream; // for storing pic in mysql
 
 	/**
 	 * Constructor for a note in note_meta table
 	 * 
+	 * @param title
+	 * @param content
+	 */
+	public Note(String title, String content) {
+		super();
+		this.title = title;
+		this.content = content;
+	}
+	
+	/**
+	 * Constructor for displaying a note in Note page from note_meta table
+	 * @param note_id
 	 * @param title
 	 * @param content
 	 */
@@ -33,44 +49,44 @@ public class Note implements Serializable {
 		this.content = content;
 	}
 
-	public Note(String title, String content) {
-		super();
-		this.title = title;
-		this.content = content;
-	}
 
 	/**
 	 * Constructor for a note in note_docu table(subclass of note_meta)
-	 * 
-	 * @param title
-	 * @param content
-	 * @param text_font
-	 * @param file_type
 	 */
-	public Note( String title, String content, String text_font, String file_type) {
+	public Note(int class_id, String title, String content, String text_font, String file_type, String docContent) {
 		super();
+		this.class_id = class_id;
 		this.title = title;
 		this.content = content;
 		this.text_font = text_font;
 		this.file_type = file_type;
+		this.docContent = docContent; 
 	}
 
 	/**
 	 * Constructor for a note in note_picture table(subclass of note_meta)
-	 * 
-	 * @param title
-	 * @param content
-	 * @param image_type
-	 * @param size
-	 * @param link
 	 */
-	public Note(String title, String content, String image_type, String size, String link) {
+	
+	
+	public Note(int class_id, String title, String content, String image_type, String size, InputStream inputStream) {
 		super();
+		this.class_id = class_id;
 		this.title = title;
 		this.content = content;
 		this.image_type = image_type;
 		this.size = size;
-		this.link = link;
+		this.inputStream = inputStream; 
+	}
+
+	
+	
+	public int getClass_id() {
+		return class_id;
+	}
+
+
+	public void setClass_id(int class_id) {
+		this.class_id = class_id;
 	}
 
 	public int getNote_id() {
@@ -115,6 +131,7 @@ public class Note implements Serializable {
 
 	public String getImage_type() {
 		return image_type;
+		
 	}
 
 	public void setImage_type(String image_type) {
@@ -140,5 +157,23 @@ public class Note implements Serializable {
 	public void setLink(String link) {
 		this.link = link;
 	}
+	
+
+	public String getDocContent() {
+		return docContent;
+	}
+
+	public void setDocContent(String docContent) {
+		this.docContent = docContent;
+	}
+
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
+	}
+	
 
 }
