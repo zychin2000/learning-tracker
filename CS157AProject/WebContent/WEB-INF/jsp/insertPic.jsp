@@ -30,7 +30,9 @@
 					<form class="form"
 						action="${pageContext.request.contextPath}/dashboard/insertpic"
 						method="post" enctype="multipart/form-data">
-
+						
+						<input type="hidden" name="note_type" value="picture">
+						
 						<fieldset class="form-group">
 							<label>Class ID</label> <input type="text"
 								value="<c:out value='${note.class_id}' />" class="form-control"

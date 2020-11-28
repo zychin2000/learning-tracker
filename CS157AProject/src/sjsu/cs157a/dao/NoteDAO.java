@@ -60,9 +60,9 @@ public class NoteDAO implements DAOInterface<Note> {
 
 	// Insert a doc Note to note_docu table
 	public void insertDocNote(Note note) throws SQLException, ClassNotFoundException {
-		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" ;
-		String INSERT_NOTES_SQL = "INSERT INTO note_docu"+ "(note_id, text_font, file_type,content) VALUES" +
-				"(LAST_INSERT_ID(), ?, ?,?);";
+		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,note_type, title,content) VALUES" + "(?,?,?,?);" ;
+		String INSERT_NOTES_SQL = "INSERT INTO note_docu"+ "(note_id,text_font, file_type,content) VALUES" +
+				"(LAST_INSERT_ID(),?, ?,?);";
 
 		try(Connection connection = getConnection();) {
 			// commit all or roll back all, if any errors
@@ -73,8 +73,10 @@ public class NoteDAO implements DAOInterface<Note> {
 
 
 			preparedStatement.setInt(1, note.getClass_id());
-			preparedStatement.setString(2, note.getTitle());
-			preparedStatement.setString(3, note.getContent());
+			preparedStatement.setString(2, note.getNote_type());
+			System.out.println("debug in notedao:" + note.getNote_type());
+			preparedStatement.setString(3, note.getTitle());
+			preparedStatement.setString(4, note.getContent());
 			preparedStatement.addBatch();
 			preparedStatement.execute();
 
@@ -97,7 +99,7 @@ public class NoteDAO implements DAOInterface<Note> {
 		}
 
 	public void InsertPicNote(Note note) throws SQLException, ClassNotFoundException{
-		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);" ;
+		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,note_type, title,content) VALUES" + "(?,?,?,?);" ;
 		String INSERT_PIC_NOTE = "INSERT INTO note_picture"+ "(note_id, image_type, size, link) VALUES" +
 				"(LAST_INSERT_ID(), ?, ?,?);";
 
@@ -109,8 +111,9 @@ public class NoteDAO implements DAOInterface<Note> {
 
 
 			preparedStatement.setInt(1, note.getClass_id());
-			preparedStatement.setString(2, note.getTitle());
-			preparedStatement.setString(3, note.getContent());
+			preparedStatement.setString(2, note.getNote_type());
+			preparedStatement.setString(3, note.getTitle());
+			preparedStatement.setString(4, note.getContent());
 			preparedStatement.addBatch();
 			preparedStatement.execute();
 

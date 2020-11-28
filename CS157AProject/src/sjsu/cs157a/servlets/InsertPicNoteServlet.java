@@ -40,6 +40,7 @@ public class InsertPicNoteServlet extends HttpServlet {
 
 		// get value from text fields
 		int class_id = Integer.parseInt(request.getParameter("class_id"));
+		String note_type = request.getParameter("note_type");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String image_type = request.getParameter("image_type");
@@ -55,7 +56,7 @@ public class InsertPicNoteServlet extends HttpServlet {
 			input = filePart.getInputStream();
 		}
 
-		Note note = new Note(class_id, title, content, image_type, size, input);
+		Note note = new Note(class_id, note_type, title, content, image_type, size, input);
 
 		try {
 			noteDao.InsertPicNote(note);

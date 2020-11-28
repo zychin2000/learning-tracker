@@ -13,7 +13,8 @@ public class Note implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int note_id;    // auto-increment in database 
-	private int class_id;   
+	private int class_id;  
+	private String note_type;
 	private String title;
 	private String content;
 	private String text_font;
@@ -53,9 +54,10 @@ public class Note implements Serializable {
 	/**
 	 * Constructor for a note in note_docu table(subclass of note_meta)
 	 */
-	public Note(int class_id, String title, String content, String text_font, String file_type, String docContent) {
+	public Note(int class_id, String note_type, String title, String content, String text_font, String file_type, String docContent) {
 		super();
 		this.class_id = class_id;
+		this.note_type = note_type; 
 		this.title = title;
 		this.content = content;
 		this.text_font = text_font;
@@ -68,9 +70,10 @@ public class Note implements Serializable {
 	 */
 	
 	
-	public Note(int class_id, String title, String content, String image_type, String size, InputStream inputStream) {
+	public Note(int class_id, String note_type,String title, String content, String image_type, String size, InputStream inputStream) {
 		super();
 		this.class_id = class_id;
+		this.note_type = note_type; 
 		this.title = title;
 		this.content = content;
 		this.image_type = image_type;
@@ -80,6 +83,14 @@ public class Note implements Serializable {
 
 	
 	
+	public String getNote_type() {
+		return note_type;
+	}
+
+	public void setNote_type(String note_type) {
+		this.note_type = note_type;
+	}
+
 	public int getClass_id() {
 		return class_id;
 	}

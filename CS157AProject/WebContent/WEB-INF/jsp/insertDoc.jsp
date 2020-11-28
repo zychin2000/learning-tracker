@@ -29,7 +29,9 @@
 					<form class="form"
 						action="${pageContext.request.contextPath}/dashboard/insertdoc"
 						method="post">
-
+						
+						<input type="hidden" name="note_type" value="docu">
+						
 						<fieldset class="form-group">
 							<label>Class ID</label> <input type="text"
 								value="<c:out value='${note.class_id}' />" class="form-control"

@@ -24,7 +24,7 @@
 
         <div class="container text-middle">
 
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/dashboard/insert" class="btn btn-success">Add
                 New Note</a>
         </div>
 
@@ -48,8 +48,14 @@
                                 <div class="btn-group">
                                     <a class="btn btn-sm btn-outline-secondary"
                                        href="edit?id=<c:out value='${note.note_id}' />">Edit</a>
-                                    <a class="btn btn-sm btn-outline-secondary"
-                                       href="delete?id=<c:out value='${note.note_id}' />">Delete</a>
+                                  <%--   <a class="btn btn-sm btn-outline-secondary"
+                                       href="delete?id=<c:out value='${note.note_id}' />">Delete</a> --%>
+                                       <form action="<c:url value="/dashboard/delete"/>"
+												method="post">
+												<input type="hidden" name="noteId" value='${note.note_id}'>
+												<input style="background: #F00;" type="submit"
+													value="Delete">
+											</form>
                                 </div>
                                     <%--                                <small class="text-muted">9 mins</small>--%>
                             </div>
