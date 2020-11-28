@@ -30,7 +30,6 @@ public class NoteServlet extends HttpServlet {
 		noteDao = new NoteDAO(new DatabaseConnection());
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
