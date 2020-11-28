@@ -1,5 +1,7 @@
 package sjsu.cs157a.dao;
 
+import org.json.JSONException;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,7 @@ public interface DAOInterface<T> {
     
     List<T> listAll() throws SQLException, ClassNotFoundException;
 
-    T getById(String id) throws SQLException, ClassNotFoundException;
+    T getById(String id) throws SQLException, ClassNotFoundException, JSONException;
 
     boolean update(T t) throws SQLException, ClassNotFoundException;
 

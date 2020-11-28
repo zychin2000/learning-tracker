@@ -47,7 +47,7 @@ public class NoteServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("listNote", listNote);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/note.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/noteList.jsp");
 		dispatcher.forward(request, response);
 	}
 
