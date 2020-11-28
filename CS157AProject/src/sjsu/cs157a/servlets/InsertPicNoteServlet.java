@@ -16,10 +16,11 @@ import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.Note;
 
 /**
- *  This Servlet acts as a page controller for the application, it is for inserting a pic note
+ * This Servlet acts as a page controller for the application, it is for
+ * inserting a pic note
  */
 @WebServlet("/dashboard/insertpic")
-@MultipartConfig(maxFileSize = 16177215)  // upload file's size up to 16MB
+@MultipartConfig(maxFileSize = 16177215) // upload file's size up to 16MB
 public class InsertPicNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

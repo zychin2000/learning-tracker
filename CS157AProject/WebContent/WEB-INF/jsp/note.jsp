@@ -61,10 +61,10 @@
 											class="btn btn-sm btn-outline-secondary"
 											href="delete?id=<c:out value='${note.note_id}' />">Delete</a> --%>
 										<td>
-										<form action="<c:url value="/dashboard/update"/>" method="post">
+									<%-- 	<form action="<c:url value="/dashboard/update"/>" method="post">
 											<input type="hidden" name="noteId"value='${note.note_id}'"> 
 											<input style="background: #00ff00;" type="submit" value="Update">
-										</form>
+										</form> --%>
 
 										<td>
 											<form action="<c:url value="/dashboard/delete"/>"
