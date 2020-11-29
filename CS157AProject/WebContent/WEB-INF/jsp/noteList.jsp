@@ -24,7 +24,7 @@
 
         <div class="container text-middle">
 
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/dashboard/insert" class="btn btn-success">Add
                 New Note</a>
         </div>
 
