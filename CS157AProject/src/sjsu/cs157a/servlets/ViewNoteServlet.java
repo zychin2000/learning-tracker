@@ -5,10 +5,7 @@ import org.json.JSONObject;
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.dao.LearningPrincipleDAO;
 import sjsu.cs157a.dao.NoteDAO;
-import sjsu.cs157a.model.DocumentNote;
-import sjsu.cs157a.model.LearningPrinciple;
-import sjsu.cs157a.model.Note;
-import sjsu.cs157a.model.NoteLearningPrinciple;
+import sjsu.cs157a.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +69,33 @@ public class ViewNoteServlet extends HttpServlet {
                 request.setAttribute("note", note);
                 request.setAttribute("learningPrinciples", learningPrinciples);
                 request.getRequestDispatcher("/WEB-INF/jsp/noteDocument.jsp").forward(request, response);
+                return;
+            }
+
+            if(note instanceof PictureNote){
+
+                //decode the picture
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead = -1;
+
+                while ((bytesRead = note.getInputStream().read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                byte[] imageBytes = outputStream.toByteArray();
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+
+                note.getInputStream().close();
+                outputStream.close();
+
+                System.out.println(base64Image);
+
+                request.setAttribute("note", note);
+                request.setAttribute("base64pic", base64Image);
+                request.setAttribute("learningPrinciples", learningPrinciples);
+                request.getRequestDispatcher("/WEB-INF/jsp/notePicture.jsp").forward(request, response);
                 return;
             }
 
