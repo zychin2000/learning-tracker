@@ -6,7 +6,7 @@
     <a href="${pageContext.request.contextPath}/dashboard/profile" class="w3-bar-item w3-button">PROFILE</a>
     <a href="#" class="w3-bar-item w3-button">LEARN</a>
     <a href="${pageContext.request.contextPath}/dashboard/notelist" class="w3-bar-item w3-button">NOTE</a>
-    <a href="#" class="w3-bar-item w3-button">LOGOUT</a>
+    <a href="../" class="w3-bar-item w3-button">LOGOUT</a>
 
 
 
