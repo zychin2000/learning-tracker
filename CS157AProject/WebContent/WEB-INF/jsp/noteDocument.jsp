@@ -1,4 +1,5 @@
 <%--@elvariable id="note" type="sjsu.cs157a.model.DocumentNote"--%>
+<%--@elvariable id="learningPrinciples" type="java.util.Set<sjsu.cs157a.model.LearningPrinciple>"--%>
 <%--
   Created by IntelliJ IDEA.
   User: Zheng Yao
@@ -53,7 +54,6 @@
 
 <body>
 <jsp:include page="components/dashboardHeader.jsp"/>
-
 <div class="row">
     <jsp:include page="components/dashboardSidebar.jsp"/>
     <div class="col-md-6">
@@ -64,7 +64,11 @@
     <div class=col-md-4">
         <button class="btn btn-secondary btn-lg" type="button" id="saveButton" style="margin: 1em">Save</button>
         <div class=container>
-            <%--                <h1>Learning Principle</h1>--%>
+
+            <jsp:include page="components/learningPrinciples.jsp">
+                <jsp:param name="learningPrinciples" value="${learningPrinciples}"/>
+                <jsp:param name="note" value="${note}"/>
+            </jsp:include>
         </div>
     </div>
     <script>
