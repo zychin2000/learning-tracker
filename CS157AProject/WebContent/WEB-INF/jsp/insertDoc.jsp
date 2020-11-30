@@ -31,9 +31,9 @@
 					<form class="form"
 						action="${pageContext.request.contextPath}/dashboard/insertdoc"
 						method="post">
-						
+
 						<input type="hidden" name="note_type" value="docu">
-						
+
 						<fieldset class="form-group">
 							<label>Class ID</label> <input type="text"
 								value="<c:out value='${note.class_id}' />" class="form-control"
@@ -52,7 +52,7 @@
 								name="content">
 						</fieldset>
 
-						<fieldset class="form-group">
+						<%-- 		<fieldset class="form-group">
 							<label>Note Font</label> <input type="text"
 								value="<c:out value='${note.text_font}' />" class="form-control"
 								name="text_font">
@@ -68,7 +68,8 @@
 							<label>Enter JSON</label> <input type="text"
 								value="<c:out value='${note.docContent}' />"
 								class="form-control" name="docContent">
-						</fieldset>
+						</fieldset> --%>
+
 						<button type="submit" class="btn btn-success">Save</button>
 
 					</form>

@@ -49,6 +49,7 @@
 									href="${pageContext.request.contextPath}/dashboard/note?id=${note.note_id}">
 									<p class="card-text">${note.content}</p>
 								</a>
+
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<%-- 	<a class="btn btn-sm btn-outline-secondary"

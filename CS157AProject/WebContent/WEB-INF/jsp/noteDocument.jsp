@@ -1,4 +1,5 @@
 <%--@elvariable id="note" type="sjsu.cs157a.model.DocumentNote"--%>
+<%--@elvariable id="learningPrinciples" type="java.util.Set<sjsu.cs157a.model.LearningPrinciple>"--%>
 <%--
   Created by IntelliJ IDEA.
   User: Zheng Yao
@@ -53,7 +54,6 @@
 
 <body>
 <jsp:include page="components/dashboardHeader.jsp"/>
-
 <div class="row">
     <jsp:include page="components/dashboardSidebar.jsp"/>
     <div class="col-md-6">
@@ -64,7 +64,11 @@
     <div class=col-md-4">
         <button class="btn btn-secondary btn-lg" type="button" id="saveButton" style="margin: 1em">Save</button>
         <div class=container>
-            <%--                <h1>Learning Principle</h1>--%>
+
+            <jsp:include page="components/learningPrinciples.jsp">
+                <jsp:param name="learningPrinciples" value="${learningPrinciples}"/>
+                <jsp:param name="note" value="${note}"/>
+            </jsp:include>
         </div>
     </div>
     <script>
@@ -73,6 +77,24 @@
          * To initialize the Editor, create a new instance with configuration object
          * @see docs/installation.md for mode details
          */
+        function save() {
+            editor.save()
+                .then((savedData) => {
+                    const urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append('note_id', ${note.getNote_id()})
+                    urlSearchParams.append('content', JSON.stringify(savedData))
+                    fetch('${pageContext.request.contextPath}/dashboard/note', {
+                        method: 'post',
+                        body: urlSearchParams,
+                    })
+
+                    //cPreview.show(savedData, document.getElementById("output"));
+                })
+                .catch((error) => {
+                    console.error('Saving error', error);
+                });
+        }
+
         var editor = new EditorJS({
             /**
              * Enable/Disable the read only mode
@@ -199,27 +221,7 @@
         /**
          * Saving example
          */
-        saveButton.addEventListener('click', function () {
-            editor.save()
-                .then((savedData) => {
-                    console.log(savedData)
-                    const urlSearchParams = new URLSearchParams();
-                    urlSearchParams.append('note_id', ${note.getNote_id()})
-                    urlSearchParams.append('content', JSON.stringify(savedData))
-                    <%--axios.post('${pageContext.request.contextPath}/dashboard/note',formData, {headers: {--%>
-                    <%--        'Content-Type': 'application/x-www-form-urlencoded'--%>
-                    <%--    }}).then((res) => console.log("Asdsad    "))--%>
-                    fetch('${pageContext.request.contextPath}/dashboard/note', {
-                        method: 'post',
-                        body: urlSearchParams,
-                    })
-
-                    //cPreview.show(savedData, document.getElementById("output"));
-                })
-                .catch((error) => {
-                    console.error('Saving error', error);
-                });
-        });
+        saveButton.addEventListener('click', save);
 
         /**
          * Toggle read-only example
