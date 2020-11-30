@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <h5 class="card-title">${learningPrinciple.getTitle()}</h5>
                     <p class="card-text">${learningPrinciple.getDescription()}</p>
-                    <form action ="${pageContext.request.contextPath}/dashboard/note/updateLearningPrinciple" method="post">
+                    <form action ="${pageContext.request.contextPath}/dashboard/note/updateLearningPrinciple" method="post" onsubmit="save()">
                         <input type="hidden" name="note_id" value=${note.note_id}>
                         <input type="hidden" name="principle_id" value="${learningPrinciple.principle_id}"/>
                         <input type="hidden" name="status" value="inProgress">
@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <h5 class="card-title">${learningPrinciple.getTitle()}</h5>
                     <p class="card-text">${learningPrinciple.getDescription()}</p>
-                    <form action ="${pageContext.request.contextPath}/dashboard/note/updateLearningPrinciple" method="post">
+                    <form action ="${pageContext.request.contextPath}/dashboard/note/updateLearningPrinciple" method="post" onsubmit="save()">
                         <input type="hidden" name="note_id" value=${note.note_id}>
                         <input type="hidden" name="principle_id" value="${learningPrinciple.principle_id}"/>
                         <input type="hidden" name="status" value="done">

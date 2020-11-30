@@ -77,6 +77,24 @@
          * To initialize the Editor, create a new instance with configuration object
          * @see docs/installation.md for mode details
          */
+        function save() {
+            editor.save()
+                .then((savedData) => {
+                    const urlSearchParams = new URLSearchParams();
+                    urlSearchParams.append('note_id', ${note.getNote_id()})
+                    urlSearchParams.append('content', JSON.stringify(savedData))
+                    fetch('${pageContext.request.contextPath}/dashboard/note', {
+                        method: 'post',
+                        body: urlSearchParams,
+                    })
+
+                    //cPreview.show(savedData, document.getElementById("output"));
+                })
+                .catch((error) => {
+                    console.error('Saving error', error);
+                });
+        }
+
         var editor = new EditorJS({
             /**
              * Enable/Disable the read only mode
@@ -203,27 +221,7 @@
         /**
          * Saving example
          */
-        saveButton.addEventListener('click', function () {
-            editor.save()
-                .then((savedData) => {
-                    console.log(savedData)
-                    const urlSearchParams = new URLSearchParams();
-                    urlSearchParams.append('note_id', ${note.getNote_id()})
-                    urlSearchParams.append('content', JSON.stringify(savedData))
-                    <%--axios.post('${pageContext.request.contextPath}/dashboard/note',formData, {headers: {--%>
-                    <%--        'Content-Type': 'application/x-www-form-urlencoded'--%>
-                    <%--    }}).then((res) => console.log("Asdsad    "))--%>
-                    fetch('${pageContext.request.contextPath}/dashboard/note', {
-                        method: 'post',
-                        body: urlSearchParams,
-                    })
-
-                    //cPreview.show(savedData, document.getElementById("output"));
-                })
-                .catch((error) => {
-                    console.error('Saving error', error);
-                });
-        });
+        saveButton.addEventListener('click', save);
 
         /**
          * Toggle read-only example
