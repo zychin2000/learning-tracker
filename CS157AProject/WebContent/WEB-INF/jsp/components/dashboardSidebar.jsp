@@ -4,7 +4,7 @@
 <div class="w3-light-grey w3-bar-block" style="">
     <h3 class="w3-bar-item">MENU</h3>
     <a href="${pageContext.request.contextPath}/dashboard/profile" class="w3-bar-item w3-button">PROFILE</a>
-    <a href="#" class="w3-bar-item w3-button">LEARN</a>
+  <!--   <a href="#" class="w3-bar-item w3-button">LEARN</a> -->
     <a href="${pageContext.request.contextPath}/dashboard/notelist" class="w3-bar-item w3-button">NOTE</a>
     <a href="../" class="w3-bar-item w3-button">LOGOUT</a>
 
