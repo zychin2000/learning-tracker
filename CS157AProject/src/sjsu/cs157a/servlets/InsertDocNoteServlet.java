@@ -37,12 +37,14 @@ public class InsertDocNoteServlet extends HttpServlet {
 
 		int class_id = Integer.parseInt(request.getParameter("class_id"));
 		String title = request.getParameter("title");
+		String note_type = request.getParameter("note_type");
 		String content = request.getParameter("content");
 		String text_font = request.getParameter("text_font");
 		String file_type = request.getParameter("file_type");
 		String docContent = request.getParameter("docContent");
+		System.out.println("Debug in NoteDao notetype " + note_type);
 
-		Note note = new Note(class_id, title, content, text_font, file_type, docContent);
+		Note note = new Note(class_id, note_type, title, content, text_font, file_type, docContent);
 
 		try {
 			noteDao.insertDocNote(note);

@@ -2,6 +2,7 @@
 <%--@elvariable id="user" type="sjsu.cs157a.models.User"--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
+
 <head>
 <title>Edit Profile</title>
 <link rel="stylesheet" href="../css/style.css">
@@ -11,6 +12,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
+
 <body>
 	<jsp:include page="components/dashboardHeader.jsp" />
 	<div class="row">
@@ -29,7 +31,9 @@
 					<form class="form"
 						action="${pageContext.request.contextPath}/dashboard/insertdoc"
 						method="post">
-
+						
+						<input type="hidden" name="note_type" value="docu">
+						
 						<fieldset class="form-group">
 							<label>Class ID</label> <input type="text"
 								value="<c:out value='${note.class_id}' />" class="form-control"

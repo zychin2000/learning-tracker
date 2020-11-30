@@ -30,7 +30,9 @@
 					<form class="form"
 						action="${pageContext.request.contextPath}/dashboard/insertpic"
 						method="post" enctype="multipart/form-data">
-
+						
+						<input type="hidden" name="note_type" value="picture">
+						
 						<fieldset class="form-group">
 							<label>Class ID</label> <input type="text"
 								value="<c:out value='${note.class_id}' />" class="form-control"
@@ -62,11 +64,6 @@
 								name="size">
 						</fieldset>
 
-
-						<!-- 	<fieldset class="form-group">
-							<label>Note Photo</label> <input type="file"
-								 class="form-control" name="photo">
-						</fieldset> -->
 						<tr>
 							<td>Note Photo:</td>
 							<td><input type="file" name="photo" size="50" /></td>
