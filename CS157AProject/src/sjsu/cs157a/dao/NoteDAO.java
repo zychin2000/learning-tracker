@@ -1,10 +1,7 @@
 package sjsu.cs157a.dao;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +11,7 @@ import org.json.JSONException;
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.model.DocumentNote;
 import sjsu.cs157a.model.Note;
+import sjsu.cs157a.model.PictureNote;
 import sjsu.cs157a.models.User;
 import sjsu.cs157a.servlets.InsertPicNoteServlet;
 import javax.swing.text.Document;
@@ -177,7 +175,26 @@ public class NoteDAO implements DAOInterface<Note> {
 		}
 
 		if (note_meta_data.get("note_type").equals("picture")) {
-			// todo retrieve picture note
+			sql = "SELECT * FROM project157a.note_picture WHERE note_id = ?";
+			List<Map<String, String>> note_picture_result = databaseConnection.executePreparedStatement(sql,
+					note_meta_data.get("note_id"));
+
+			if (!note_picture_result.isEmpty()) {
+				Map<String, String> data = note_picture_result.get(0);
+
+				//use the orignal api to get the picture blob
+				PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT link FROM project157a.note_picture WHERE note_id = ?");
+				preparedStatement.setString(1, data.get("note_id"));
+
+				ResultSet rs = preparedStatement.executeQuery();
+				rs.next();
+
+				Blob pictureFile = rs.getBlob("link");
+
+				return new PictureNote(Integer.parseInt(note_meta_data.get("class_id")),"picture",note_meta_data.get("title"),note_meta_data.get("content"),data.get("image_type"),
+						data.get("size"), pictureFile.getBinaryStream());
+			}
+
 
 		}
 		return null;
