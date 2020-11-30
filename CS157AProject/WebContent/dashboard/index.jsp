@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -21,6 +20,7 @@ h3, h4, h5, h6 {
 }
 </style>
 
+
 <body>
 	<jsp:include page="../WEB-INF/jsp/components/dashboardHeader.jsp" />
 
@@ -30,9 +30,6 @@ h3, h4, h5, h6 {
 
 			<!-- Page content -->
 			<div class="w3-content" style="max-width: 1100px">
-
-
-
 				<img class="w3-image" src="../img/study3.png"
 					alt="Hamburger Catering" width="1200" height="800">
 
@@ -40,7 +37,6 @@ h3, h4, h5, h6 {
 				</div>
 
 				<hr>
-
 				<!-- Menu Section -->
 				<div class="w3-row w3-padding-64" id="menu">
 					<div class="w3-col l6 w3-padding-large">
@@ -89,9 +85,7 @@ h3, h4, h5, h6 {
 			</div>
 		</div>
 
-
 	</div>
-
 	<div class="container">
 		<footer>
 			<p>LearnToSeekTruth, Copyright &copy; 2020</p>
