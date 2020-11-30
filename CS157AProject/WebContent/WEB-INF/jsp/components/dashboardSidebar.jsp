@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Sidebar -->
-<div class="col-md-2 w3-sidebar w3-light-grey w3-bar-block" style="width:25%; position:fixed;">
+<div class="col-md-2" style="display: flex;flex-flow: column">
+<div class="w3-light-grey w3-bar-block" style="">
     <h3 class="w3-bar-item">MENU</h3>
     <a href="${pageContext.request.contextPath}/dashboard/profile" class="w3-bar-item w3-button">PROFILE</a>
     <a href="#" class="w3-bar-item w3-button">LEARN</a>
@@ -20,4 +21,5 @@
     </div> -->
 
 
+</div>
 </div>
