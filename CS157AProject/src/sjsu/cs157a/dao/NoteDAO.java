@@ -1,20 +1,14 @@
 package sjsu.cs157a.dao;
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONException;
 import sjsu.cs157a.config.DatabaseConnection;
-import sjsu.cs157a.model.DocumentNote;
-import sjsu.cs157a.model.Note;
-import sjsu.cs157a.model.PictureNote;
+import sjsu.cs157a.model.*;
 import sjsu.cs157a.models.User;
-import sjsu.cs157a.servlets.InsertPicNoteServlet;
-import javax.swing.text.Document;
 
 /**
  * 
@@ -52,6 +46,14 @@ public class NoteDAO implements DAOInterface<Note> {
 		return true;
 	}
 
+
+	public int insertUserNoteConnection(Note note, User user) throws SQLException, ClassNotFoundException {
+		String sql = "INSERT INTO `uploads` (`user_id`, `note_id`) VALUES (?, ?);";
+
+		return databaseConnection.executeUpdate(sql, user.getUserID(),String.valueOf(note.getNote_id()));
+
+	}
+
 	// Insert a doc Note to note_docu table
 	public void insertDocNote(Note note) throws SQLException, ClassNotFoundException {
 		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,note_type, title,content) VALUES" + "(?,?,?,?);";
@@ -65,7 +67,7 @@ public class NoteDAO implements DAOInterface<Note> {
 			// commit all or roll back all, if any errors
 			connection.setAutoCommit(false);
 
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES);
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES, Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_NOTES_SQL);
 
 			preparedStatement.setInt(1, note.getClass_id());
@@ -87,6 +89,15 @@ public class NoteDAO implements DAOInterface<Note> {
 			preparedStatement1.execute();
 			connection.commit();
 
+			//bind the generated keys back to the model
+			try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					note.setNote_id(generatedKeys.getInt(1));
+				}
+				else {
+					throw new SQLException("Creating note failed, no ID obtained.");
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,7 +111,7 @@ public class NoteDAO implements DAOInterface<Note> {
 
 		try (Connection connection = getConnection();) {
 			connection.setAutoCommit(false);
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES);
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES, Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_PIC_NOTE);
 
 			preparedStatement.setInt(1, note.getClass_id());
@@ -118,8 +129,19 @@ public class NoteDAO implements DAOInterface<Note> {
 			preparedStatement1.execute();
 			connection.commit();
 
+			//bind the generated keys back to the model
+			try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					note.setNote_id(generatedKeys.getInt(1));
+				}
+				else {
+					throw new SQLException("Creating note failed, no ID obtained.");
+				}
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
+			throw e;
 		}
 	}
 
@@ -150,6 +172,22 @@ public class NoteDAO implements DAOInterface<Note> {
 		}
 		return noteList;
 
+	}
+
+	public List<Note> listAllByUser(User user) throws SQLException, ClassNotFoundException{
+		String sql = "SELECT note_meta.note_id, note_meta.class_id, title, content, note_type \n" +
+				"FROM project157a.note_meta INNER JOIN uploads ON note_meta.note_id = uploads.note_id\n" +
+				"WHERE user_id = ?\n";
+		List<Map<String, String>> result = databaseConnection.executePreparedStatement(sql, user.getUserID());
+
+		List<Note> noteList = new ArrayList<>();
+
+		for (Map<String, String> tuple : result) {
+			noteList.add(new Note(Integer.parseInt(tuple.get("note_id")), tuple.get("title"),tuple.get("content")));
+
+		}
+
+		return noteList;
 	}
 
 	@Override

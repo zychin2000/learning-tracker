@@ -10,10 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.Note;
+import sjsu.cs157a.models.User;
 
 /**
  * This Servlet acts as a page controller for the application, it is for displaying notes in the note page 
@@ -38,10 +40,14 @@ public class NoteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+
 		
 		List<Note> listNote = null;
 		try {
-			listNote = noteDao.listAll();
+			listNote = noteDao.listAllByUser(user);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

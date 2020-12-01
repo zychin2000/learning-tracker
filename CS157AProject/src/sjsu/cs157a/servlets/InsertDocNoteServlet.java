@@ -8,10 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sjsu.cs157a.config.DatabaseConnection;
 import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.Note;
+import sjsu.cs157a.models.User;
 
 /**
  * This Servlet acts as a page controller for the application, it is for
@@ -35,6 +37,9 @@ public class InsertDocNoteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+
 		int class_id = Integer.parseInt(request.getParameter("class_id"));
 		String title = request.getParameter("title");
 		String note_type = request.getParameter("note_type");
@@ -49,6 +54,7 @@ public class InsertDocNoteServlet extends HttpServlet {
 		Note note = new Note(class_id, note_type, title, content);
 		try {
 			noteDao.insertDocNote(note);
+			noteDao.insertUserNoteConnection(note, user);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
