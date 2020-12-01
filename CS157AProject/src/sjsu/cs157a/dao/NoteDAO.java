@@ -55,8 +55,11 @@ public class NoteDAO implements DAOInterface<Note> {
 	// Insert a doc Note to note_docu table
 	public void insertDocNote(Note note) throws SQLException, ClassNotFoundException {
 		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,note_type, title,content) VALUES" + "(?,?,?,?);";
-		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id,text_font, file_type,content) VALUES"
-				+ "(LAST_INSERT_ID(),?, ?,?);";
+//		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id,text_font, file_type,content) VALUES"
+//				+ "(LAST_INSERT_ID(),?, ?,?);";
+		
+		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id) VALUES"
+		+ "(LAST_INSERT_ID());";
 
 		try (Connection connection = getConnection();) {
 			// commit all or roll back all, if any errors
@@ -73,10 +76,10 @@ public class NoteDAO implements DAOInterface<Note> {
 			preparedStatement.addBatch();
 			preparedStatement.execute();
 
-			preparedStatement1.setString(1, note.getText_font());
-			System.out.println("debug " + note.getText_font());
-			preparedStatement1.setString(2, note.getFile_type());
-			preparedStatement1.setString(3, note.getDocContent());
+//			preparedStatement1.setString(1, note.getText_font());
+//			System.out.println("debug " + note.getText_font());
+//			preparedStatement1.setString(2, note.getFile_type());
+//			preparedStatement1.setString(3, note.getDocContent());
 
 			System.out.println("debug in noteDao    " + preparedStatement1);
 			// preparedStatement1.executeUpdate();
@@ -175,6 +178,10 @@ public class NoteDAO implements DAOInterface<Note> {
 		}
 
 		if (note_meta_data.get("note_type").equals("picture")) {
+
+			// todo retrieve picture note
+			System.out.println("It is a picture");
+
 			sql = "SELECT * FROM project157a.note_picture WHERE note_id = ?";
 			List<Map<String, String>> note_picture_result = databaseConnection.executePreparedStatement(sql,
 					note_meta_data.get("note_id"));
@@ -194,6 +201,7 @@ public class NoteDAO implements DAOInterface<Note> {
 				return new PictureNote(Integer.parseInt(note_meta_data.get("class_id")),Integer.parseInt(note_meta_data.get("note_id")),"picture",note_meta_data.get("title"),note_meta_data.get("content"),data.get("image_type"),
 						data.get("size"), pictureFile.getBinaryStream());
 			}
+
 
 
 		}
@@ -269,6 +277,7 @@ public class NoteDAO implements DAOInterface<Note> {
 		return false;
 	}
 
+	
 	// --------------- This main class for testing ----------
 	public static void main(String args[]) throws ClassNotFoundException, SQLException {
 

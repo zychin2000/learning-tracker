@@ -39,13 +39,14 @@ public class InsertDocNoteServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		String note_type = request.getParameter("note_type");
 		String content = request.getParameter("content");
-		String text_font = request.getParameter("text_font");
-		String file_type = request.getParameter("file_type");
-		String docContent = request.getParameter("docContent");
+//		String text_font = request.getParameter("text_font");
+//		String file_type = request.getParameter("file_type");
+//		String docContent = request.getParameter("docContent");
 		System.out.println("Debug in NoteDao notetype " + note_type);
 
-		Note note = new Note(class_id, note_type, title, content, text_font, file_type, docContent);
-
+//		Note note = new Note(class_id, note_type, title, content, text_font, file_type, docContent);
+	
+		Note note = new Note(class_id, note_type, title, content);
 		try {
 			noteDao.insertDocNote(note);
 		} catch (ClassNotFoundException e) {

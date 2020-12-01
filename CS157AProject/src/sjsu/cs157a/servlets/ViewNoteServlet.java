@@ -39,6 +39,7 @@ public class ViewNoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String note_id = request.getParameter("id");
+        System.out.println("debug in viewNoteservle: " + note_id);
 
         try {
             Note note = noteDao.getById(note_id);

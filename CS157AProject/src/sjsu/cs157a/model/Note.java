@@ -80,9 +80,22 @@ public class Note implements Serializable {
 		this.size = size;
 		this.inputStream = inputStream; 
 	}
+	
+	/**
+	 * New constructor correponding to new Merge 
+	 * @param class_id
+	 * @param note_type
+	 * @param title
+	 * @param content
+	 */
+	public Note(int class_id, String note_type, String title, String content) {
+		super();
+		this.class_id = class_id;
+		this.note_type = note_type;
+		this.title = title;
+		this.content = content;
+	}
 
-	
-	
 	public String getNote_type() {
 		return note_type;
 	}
