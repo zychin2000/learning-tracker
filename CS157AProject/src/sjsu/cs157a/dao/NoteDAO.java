@@ -191,13 +191,13 @@ public class NoteDAO implements DAOInterface<Note> {
 
 				Blob pictureFile = rs.getBlob("link");
 
-				return new PictureNote(Integer.parseInt(note_meta_data.get("class_id")),"picture",note_meta_data.get("title"),note_meta_data.get("content"),data.get("image_type"),
+				return new PictureNote(Integer.parseInt(note_meta_data.get("class_id")),Integer.parseInt(note_meta_data.get("note_id")),"picture",note_meta_data.get("title"),note_meta_data.get("content"),data.get("image_type"),
 						data.get("size"), pictureFile.getBinaryStream());
 			}
 
 
 		}
-		return null;
+		return new Note(Integer.parseInt(note_meta_data.get("note_id")), note_meta_data.get("title"), note_meta_data.get("content"));
 	}
 
 	// Select notes

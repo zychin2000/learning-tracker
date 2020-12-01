@@ -7,7 +7,8 @@ import java.io.InputStream;
  * attributes related to the note_picture table will be moved to this class.
  */
 public class PictureNote extends Note{
-    public PictureNote(int class_id, String note_type, String title, String content, String image_type, String size, InputStream inputStream) {
+    public PictureNote(int class_id, int note_id, String note_type, String title, String content, String image_type, String size, InputStream inputStream) {
         super(class_id, note_type, title, content, image_type, size, inputStream);
+        this.setNote_id(note_id);
     }
 }
