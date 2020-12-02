@@ -41,7 +41,7 @@ public class UpdateNoteLearningPrinciple  extends HttpServlet {
             Note note = noteDao.getById(note_id);
             LearningPrinciple learningPrinciple = learningPrincipleDAO.getById(principle_id);
 
-            if(Arrays.asList(ACCEPTABLE_STATUSES).contains(status))
+            if(note!= null && status != null && Arrays.asList(ACCEPTABLE_STATUSES).contains(status))
                 learningPrincipleDAO.updateNoteLearningPrincipleStatus(learningPrinciple, note, status);
 
         } catch (SQLException | ClassNotFoundException | JSONException throwables) {
