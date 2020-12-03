@@ -30,71 +30,46 @@ public class NoteDAO implements DAOInterface<Note> {
 
 	}
 
-	/**
-	 * Insert a note into note_docu table
-	 */
+
 	@Override
 	public boolean insert(Note t) throws SQLException, ClassNotFoundException {
-		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,title,content) VALUES" + "(?,?,?);";
-		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id, text_font, file_type) VALUES"
-				+ "(LAST_INSERT_ID(), ?, ?);";
-
-		System.out.println("Debug in NoteDao INSERT_NOTES_SQL: " + INSERT_NOTES_SQL);
-		databaseConnection.executeUpdate(INSERT_NOTES, Integer.toString(t.getClass_id()), t.getTitle(), t.getContent());
-		databaseConnection.executeUpdate(INSERT_NOTES_SQL, Integer.toString(t.getNote_id()), t.getText_font(),
-				t.getFile_type());
 		return true;
 	}
 
-
 	public int insertUserNoteConnection(Note note, User user) throws SQLException, ClassNotFoundException {
 		String sql = "INSERT INTO `uploads` (`user_id`, `note_id`) VALUES (?, ?);";
-
-		return databaseConnection.executeUpdate(sql, user.getUserID(),String.valueOf(note.getNote_id()));
+		return databaseConnection.executeUpdate(sql, user.getUserID(), String.valueOf(note.getNote_id()));
 
 	}
 
 	// Insert a doc Note to note_docu table
 	public void insertDocNote(Note note) throws SQLException, ClassNotFoundException {
 		String INSERT_NOTES = "INSERT INTO note_meta" + "(class_id,note_type, title,content) VALUES" + "(?,?,?,?);";
-//		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id,text_font, file_type,content) VALUES"
-//				+ "(LAST_INSERT_ID(),?, ?,?);";
-		
-		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id) VALUES"
-		+ "(LAST_INSERT_ID());";
+
+		String INSERT_NOTES_SQL = "INSERT INTO note_docu" + "(note_id) VALUES" + "(LAST_INSERT_ID());";
 
 		try (Connection connection = getConnection();) {
 			// commit all or roll back all, if any errors
 			connection.setAutoCommit(false);
 
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES,
+					Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_NOTES_SQL);
 
 			preparedStatement.setInt(1, note.getClass_id());
 			preparedStatement.setString(2, note.getNote_type());
-			System.out.println("debug in notedao:" + note.getNote_type());
 			preparedStatement.setString(3, note.getTitle());
 			preparedStatement.setString(4, note.getContent());
 			preparedStatement.addBatch();
 			preparedStatement.execute();
-
-//			preparedStatement1.setString(1, note.getText_font());
-//			System.out.println("debug " + note.getText_font());
-//			preparedStatement1.setString(2, note.getFile_type());
-//			preparedStatement1.setString(3, note.getDocContent());
-
-			System.out.println("debug in noteDao    " + preparedStatement1);
-			// preparedStatement1.executeUpdate();
-
 			preparedStatement1.execute();
 			connection.commit();
 
-			//bind the generated keys back to the model
+			// bind the generated keys back to the model
 			try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
 					note.setNote_id(generatedKeys.getInt(1));
-				}
-				else {
+				} else {
 					throw new SQLException("Creating note failed, no ID obtained.");
 				}
 			}
@@ -111,7 +86,8 @@ public class NoteDAO implements DAOInterface<Note> {
 
 		try (Connection connection = getConnection();) {
 			connection.setAutoCommit(false);
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NOTES,
+					Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement preparedStatement1 = connection.prepareStatement(INSERT_PIC_NOTE);
 
 			preparedStatement.setInt(1, note.getClass_id());
@@ -129,12 +105,11 @@ public class NoteDAO implements DAOInterface<Note> {
 			preparedStatement1.execute();
 			connection.commit();
 
-			//bind the generated keys back to the model
+			// bind the generated keys back to the model
 			try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
 					note.setNote_id(generatedKeys.getInt(1));
-				}
-				else {
+				} else {
 					throw new SQLException("Creating note failed, no ID obtained.");
 				}
 			}
@@ -174,16 +149,16 @@ public class NoteDAO implements DAOInterface<Note> {
 
 	}
 
-	public List<Note> listAllByUser(User user) throws SQLException, ClassNotFoundException{
-		String sql = "SELECT note_meta.note_id, note_meta.class_id, title, content, note_type \n" +
-				"FROM project157a.note_meta INNER JOIN uploads ON note_meta.note_id = uploads.note_id\n" +
-				"WHERE user_id = ?\n";
+	public List<Note> listAllByUser(User user) throws SQLException, ClassNotFoundException {
+		String sql = "SELECT note_meta.note_id, note_meta.class_id, title, content, note_type \n"
+				+ "FROM project157a.note_meta INNER JOIN uploads ON note_meta.note_id = uploads.note_id\n"
+				+ "WHERE user_id = ?\n";
 		List<Map<String, String>> result = databaseConnection.executePreparedStatement(sql, user.getUserID());
 
 		List<Note> noteList = new ArrayList<>();
 
 		for (Map<String, String> tuple : result) {
-			noteList.add(new Note(Integer.parseInt(tuple.get("note_id")), tuple.get("title"),tuple.get("content")));
+			noteList.add(new Note(Integer.parseInt(tuple.get("note_id")), tuple.get("title"), tuple.get("content")));
 
 		}
 
@@ -194,6 +169,7 @@ public class NoteDAO implements DAOInterface<Note> {
 	public Note getById(String id) throws SQLException, ClassNotFoundException, JSONException {
 		// check for the type of note first
 		String sql = "SELECT * FROM project157a.note_meta WHERE note_id = ?";
+
 		List<Map<String, String>> note_meta_result = databaseConnection.executePreparedStatement(sql, id);
 
 		if (note_meta_result.isEmpty())
@@ -227,8 +203,9 @@ public class NoteDAO implements DAOInterface<Note> {
 			if (!note_picture_result.isEmpty()) {
 				Map<String, String> data = note_picture_result.get(0);
 
-				//use the orignal api to get the picture blob
-				PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT link FROM project157a.note_picture WHERE note_id = ?");
+				// use the orignal api to get the picture blob
+				PreparedStatement preparedStatement = getConnection()
+						.prepareStatement("SELECT link FROM project157a.note_picture WHERE note_id = ?");
 				preparedStatement.setString(1, data.get("note_id"));
 
 				ResultSet rs = preparedStatement.executeQuery();
@@ -236,14 +213,15 @@ public class NoteDAO implements DAOInterface<Note> {
 
 				Blob pictureFile = rs.getBlob("link");
 
-				return new PictureNote(Integer.parseInt(note_meta_data.get("class_id")),Integer.parseInt(note_meta_data.get("note_id")),"picture",note_meta_data.get("title"),note_meta_data.get("content"),data.get("image_type"),
-						data.get("size"), pictureFile.getBinaryStream());
+				return new PictureNote(Integer.parseInt(note_meta_data.get("class_id")),
+						Integer.parseInt(note_meta_data.get("note_id")), "picture", note_meta_data.get("title"),
+						note_meta_data.get("content"), data.get("image_type"), data.get("size"),
+						pictureFile.getBinaryStream());
 			}
 
-
-
 		}
-		return new Note(Integer.parseInt(note_meta_data.get("note_id")), note_meta_data.get("title"), note_meta_data.get("content"));
+		return new Note(Integer.parseInt(note_meta_data.get("note_id")), note_meta_data.get("title"),
+				note_meta_data.get("content"));
 	}
 
 	// Select notes
@@ -287,59 +265,59 @@ public class NoteDAO implements DAOInterface<Note> {
 			rowUpdated = statement.executeUpdate() > 0;
 		}
 
-		if(note instanceof DocumentNote){
+		if (note instanceof DocumentNote) {
 			DocumentNote documentNote = (DocumentNote) note;
 			String UPDATE_DOC_NOTE_SQL = "update note_docu set content = ? where note_id = ?;";
-			databaseConnection.executeUpdate(UPDATE_DOC_NOTE_SQL, documentNote.getDocumentContent().toString(), Integer.toString(note.getNote_id()));
+			databaseConnection.executeUpdate(UPDATE_DOC_NOTE_SQL, documentNote.getDocumentContent().toString(),
+					Integer.toString(note.getNote_id()));
 		}
-
 
 		return rowUpdated;
 	}
 
 	// Delete a note
-	public boolean deleteNote(int id) throws SQLException, ClassNotFoundException {
-		String DELETE_NOTES_SQL = "delete from note_meta where note_id = ?;";
-		boolean rowDeleted;
-		connection = getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(DELETE_NOTES_SQL);) {
-			statement.setInt(1, id);
-			rowDeleted = statement.executeUpdate() > 0;
+	public boolean deleteNote(String id) throws SQLException, ClassNotFoundException {
+		String DELETE_NOTES_SQL = "SELECT * FROM project157a.note_meta WHERE note_id = ?";
+
+		List<Map<String, String>> note_meta_result = databaseConnection.executePreparedStatement(DELETE_NOTES_SQL, id);
+
+		if (note_meta_result.isEmpty())
+			return false;
+
+		Map<String, String> note_meta_data = note_meta_result.get(0);
+
+		boolean rowDeleted = false;
+
+		if (note_meta_data.get("note_type").equals("docu")) {
+
+			String DELETE_DOCU_SQL = "DELETE note_meta, note_docu\n" + "FROM note_meta\n"
+					+ "LEFT JOIN note_docu ON note_meta.note_id = note_docu.note_id \n"
+					+ "where note_meta.note_id = ?;";
+
+			databaseConnection.executeUpdate(DELETE_DOCU_SQL, note_meta_data.get("note_id"));
+
+			rowDeleted = true;
+
+		} 
+		
+		if (note_meta_data.get("note_type").equals("picture")) {
+
+			String DELETE_PIC_SQL = 
+					"DELETE note_meta, note_picture\n" + 
+					"FROM note_meta\n" + 
+					"LEFT JOIN note_picture ON note_meta.note_id = note_picture.note_id \n" + 
+					"where note_meta.note_id = ?;";
+
+			databaseConnection.executeUpdate(DELETE_PIC_SQL, note_meta_data.get("note_id"));
+			rowDeleted = true;
 		}
+
 		return rowDeleted;
 	}
 
 	@Override
 	public boolean delete(Note t) {
-		// TODO Auto-generated method stub
 		return false;
-	}
-
-	
-	// --------------- This main class for testing ----------
-	public static void main(String args[]) throws ClassNotFoundException, SQLException {
-
-		List<Note> nodeList = new ArrayList<>();
-		connection = getConnection();
-		try (PreparedStatement preparedStatement = connection
-				.prepareStatement("SELECT * FROM project157a.note_meta");) {
-			System.out.println(preparedStatement);
-
-			ResultSet rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-				String title = rs.getString("title");
-				String content = rs.getNString("content");
-				nodeList.add(new Note(title, content));
-			}
-
-		} catch (SQLException e) {
-			// TODO: handle exception
-			System.out.println(e);
-
-		}
-
-		System.out.println("debug in main:" + nodeList);
 	}
 
 }
