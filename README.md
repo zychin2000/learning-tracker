@@ -33,9 +33,8 @@ A goal of this is to position students so that by the end of their course, they 
 * Register Account
 * Log Into Account
 * Delete Notes
-* Organizing Notes
 * Update/Edit User Information
-* Lecture Note Uploading and Updating
-* Browser and sort through Topics and Classes
-* Choose and Practice one Learning Principles
-* Help Make Portfolio of Learning
+* Lecture Note Insertion
+* Lecture Update
+* Lecture Note Deletion
+* Tracking Learning Process
