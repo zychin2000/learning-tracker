@@ -21,7 +21,7 @@ raw=true
 alt="Landing Page Image"
 />
 
-###Introduction
+### Introduction
 This a Java Web application for students to upload, update, delete class notes, and track learning process by applying learning principles.
 
 Our mission is to help college students create significant learning experiences in their college courses. (L. Dee Fink)
