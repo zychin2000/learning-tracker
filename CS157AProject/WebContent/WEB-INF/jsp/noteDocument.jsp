@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="note" type="sjsu.cs157a.model.DocumentNote"--%>
 <%--@elvariable id="learningPrinciples" type="java.util.Set<sjsu.cs157a.model.LearningPrinciple>"--%>
 <%--
@@ -70,7 +71,13 @@
                 <jsp:param name="note" value="${note}"/>
             </jsp:include>
         </div>
+
     </div>
+
+    <jsp:include page="components/comments.jsp">
+        <jsp:param name="comments" value="${comments}"/>
+    </jsp:include>
+
     <script>
 
         /**
@@ -232,7 +239,10 @@
             readOnlyIndicator.textContent = readOnlyState ? 'On' : 'Off';
         });
     </script>
+
 </div>
+
+
 
 </body>
 </html>
