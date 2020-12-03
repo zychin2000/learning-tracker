@@ -58,6 +58,11 @@
             </jsp:include>
         </div>
     </div>
+
+    <jsp:include page="components/comments.jsp">
+        <jsp:param name="comments" value="${comments}"/>
+    </jsp:include>
+
     <script>
 
         /**

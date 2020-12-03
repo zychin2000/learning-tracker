@@ -3,6 +3,7 @@ package sjsu.cs157a.servlets;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sjsu.cs157a.config.DatabaseConnection;
+import sjsu.cs157a.dao.CommentDAO;
 import sjsu.cs157a.dao.LearningPrincipleDAO;
 import sjsu.cs157a.dao.NoteDAO;
 import sjsu.cs157a.model.*;
@@ -17,10 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @WebServlet("/dashboard/note")
 public class ViewNoteServlet extends HttpServlet {
@@ -28,11 +26,13 @@ public class ViewNoteServlet extends HttpServlet {
 
     private static NoteDAO noteDao;
     private static LearningPrincipleDAO learningPrincipleDAO;
+    private static CommentDAO commentDAO;
 
     public void init() {
         DatabaseConnection dbC = new DatabaseConnection();
         noteDao = new NoteDAO(dbC);
         learningPrincipleDAO = new LearningPrincipleDAO(dbC);
+        commentDAO = new CommentDAO(dbC);
     }
 
     @Override
@@ -43,6 +43,8 @@ public class ViewNoteServlet extends HttpServlet {
 
         try {
             Note note = noteDao.getById(note_id);
+
+            List<NoteComment> noteCommentList = commentDAO.listAllByNote(note);
 
             Set<LearningPrinciple> learningPrinciples = new HashSet<>();
 
@@ -68,6 +70,7 @@ public class ViewNoteServlet extends HttpServlet {
             if (note instanceof DocumentNote) {
                 request.setAttribute("note", note);
                 request.setAttribute("learningPrinciples", learningPrinciples);
+                request.setAttribute("comments", noteCommentList);
                 request.getRequestDispatcher("/WEB-INF/jsp/noteDocument.jsp").forward(request, response);
                 return;
             }
@@ -95,6 +98,7 @@ public class ViewNoteServlet extends HttpServlet {
                 request.setAttribute("note", note);
                 request.setAttribute("base64pic", base64Image);
                 request.setAttribute("learningPrinciples", learningPrinciples);
+                request.setAttribute("comments", noteCommentList);
                 request.getRequestDispatcher("/WEB-INF/jsp/notePicture.jsp").forward(request, response);
                 return;
             }
