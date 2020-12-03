@@ -28,7 +28,8 @@ public class DeleteNoteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		int id = Integer.parseInt(request.getParameter("noteId"));
+//		int id = Integer.parseInt(request.getParameter("noteId"));
+		String id = request.getParameter("noteId");
 
 		try {
 			noteDao.deleteNote(id);
