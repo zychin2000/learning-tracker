@@ -5,9 +5,9 @@ Fall 2020
 
 Written by:
 
-  Bella Wei
+  	Bella Wei
 
-  Henry Fan
+  	Henry Fan
 
 	ZhengYao(Josh) Chin
 
