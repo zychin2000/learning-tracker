@@ -7,8 +7,26 @@
     <groupId>groupId</groupId>
     <artifactId>CS157A-section9-team7</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
     <build>
+            <resources>
+<!--Adding the config.properties file to the classes folder-->
+                <resource>
+                    <filtering>false</filtering>
+                    <directory>src</directory>
+                    <includes>
+                        <include>**/*.properties</include>
+                    </includes>
+                </resource>
+            </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webXml>WebContent/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
