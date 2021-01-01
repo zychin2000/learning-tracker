@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>groupId</groupId>
-    <artifactId>CS157A-section9-team7</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>learning-principle</artifactId>
+    <version>0.1</version>
     <packaging>war</packaging>
     <build>
             <resources>
