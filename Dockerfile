@@ -1,13 +1,15 @@
+FROM maven:3.6.0-jdk-11-slim AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+
 # Install Tomcat    & openjdk 8 (openjdk has java and javac)
 FROM tomcat:jdk8-openjdk
 # Copy source files to tomcat folder structure
-COPY . /usr/local/tomcat/webapps/
-# -cp, Adding compile time classpath as Tomcat's /lib/servlet-api.jar file.
-# - d, destination output location.
-RUN ["javac", "-cp", ".:/usr/local/tomcat/lib/servlet-api.jar", "-d", "/usr/local/tomcat/webapps/myApp/WEB-INF/classes/", "/usr/local/tomcat/webapps/myApp/src/TestingServlet.java"]
-
-RUN ["javac", "-cp", ".:/usr/local/tomcat/lib/servlet-api.jar", "-d", "/usr/local/tomcat/webapps/myApp/WEB-INF/classes/", "/usr/local/tomcat/webapps/myApp/src/ContactFormServlet.java"]
+COPY --from=build /home/app/target/learning-principle-0.1.war /usr/local/tomcat/webapps/
 
 # Serve Tomcat
 EXPOSE 8080
+
 CMD ["catalina.sh", "run"]
